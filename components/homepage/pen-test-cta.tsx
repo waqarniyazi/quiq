@@ -8,7 +8,7 @@ export function PenTestCTA() {
     return (
         <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-black">
             <div className="max-w-6xl mx-auto">
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+                <div className="flex flex-col lg:flex-row items-center gap-1 lg:gap-16">
                     {/* Left – Info & CTA */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
@@ -18,10 +18,10 @@ export function PenTestCTA() {
                         className="flex-1 text-center lg:text-left"
                     >
                         <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">New Product</p>
-                        <h2 className="text-4xl sm:text-5xl font-bold gradient-text mb-6">
+                        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold gradient-text mb-4 sm:mb-6">
                             Integrated Pen Test
                         </h2>
-                        <p className="text-base sm:text-lg text-white/40 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
+                        <p className="text-sm sm:text-base text-white/40 mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
                             Our most advanced testing device. A single pen-style device that simplifies sample collection and delivers results faster than ever.
                         </p>
                         <Link
@@ -58,7 +58,7 @@ export function PenTestCTA() {
                                     alt="QUIQ Integrated Pen Test"
                                     width={400}
                                     height={400}
-                                    className="w-full max-w-sm h-auto relative z-10 drop-shadow-2xl"
+                                    className="w-full max-w-[240px] sm:max-w-xs lg:max-w-sm h-auto relative z-10 drop-shadow-2xl"
                                 />
                             </motion.div>
                         </div>

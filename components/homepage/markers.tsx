@@ -1,6 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
     Sun,
@@ -15,52 +16,110 @@ const categories = [
     {
         name: 'Vitamins',
         icon: Sun,
-        color: 'from-amber-500/20 to-orange-500/20',
-        borderColor: 'group-hover:border-amber-500/40',
-        iconColor: 'group-hover:text-amber-400',
-        href: '/products?category=Vitamins',
+        gradient: 'linear-gradient(135deg, rgba(245,158,11,0.2), rgba(249,115,22,0.2))',
+        border: 'rgba(245,158,11,0.4)',
+        iconColor: '#fbbf24',
+        href: '/products?category=Wellness+%26+Lifestyle',
     },
     {
         name: 'Hormones',
         icon: Zap,
-        color: 'from-violet-500/20 to-purple-500/20',
-        borderColor: 'group-hover:border-violet-500/40',
-        iconColor: 'group-hover:text-violet-400',
-        href: '/products?category=Hormones',
+        gradient: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(168,85,247,0.2))',
+        border: 'rgba(139,92,246,0.4)',
+        iconColor: '#a78bfa',
+        href: '/products?category=Wellness+%26+Lifestyle',
     },
     {
         name: 'Metabolic',
         icon: Activity,
-        color: 'from-emerald-500/20 to-green-500/20',
-        borderColor: 'group-hover:border-emerald-500/40',
-        iconColor: 'group-hover:text-emerald-400',
-        href: '/products?category=Metabolic',
+        gradient: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(34,197,94,0.2))',
+        border: 'rgba(16,185,129,0.4)',
+        iconColor: '#34d399',
+        href: '/products?category=Wellness+%26+Lifestyle',
     },
     {
         name: 'Immunity',
         icon: Shield,
-        color: 'from-blue-500/20 to-cyan-500/20',
-        borderColor: 'group-hover:border-blue-500/40',
-        iconColor: 'group-hover:text-blue-400',
-        href: '/products?category=Immunity',
+        gradient: 'linear-gradient(135deg, rgba(59,130,246,0.2), rgba(6,182,212,0.2))',
+        border: 'rgba(59,130,246,0.4)',
+        iconColor: '#60a5fa',
+        href: '/products?category=Infectious+Diseases',
     },
     {
         name: 'Heart Health',
         icon: Heart,
-        color: 'from-rose-500/20 to-pink-500/20',
-        borderColor: 'group-hover:border-rose-500/40',
-        iconColor: 'group-hover:text-rose-400',
-        href: '/products?category=Heart',
+        gradient: 'linear-gradient(135deg, rgba(244,63,94,0.2), rgba(236,72,153,0.2))',
+        border: 'rgba(244,63,94,0.4)',
+        iconColor: '#fb7185',
+        href: '/products?category=Critical+%26+Emergency',
     },
     {
         name: 'Blood Work',
         icon: Droplets,
-        color: 'from-red-500/20 to-orange-500/20',
-        borderColor: 'group-hover:border-red-500/40',
-        iconColor: 'group-hover:text-red-400',
-        href: '/products?category=Blood',
+        gradient: 'linear-gradient(135deg, rgba(239,68,68,0.2), rgba(249,115,22,0.2))',
+        border: 'rgba(239,68,68,0.4)',
+        iconColor: '#f87171',
+        href: '/products?category=Wellness+%26+Lifestyle',
     },
 ]
+
+function CategoryCard({ cat, index }: { cat: typeof categories[0]; index: number }) {
+    const ref = useRef<HTMLDivElement>(null)
+    const isInView = useInView(ref, { once: false, margin: '-30% 0px -30% 0px' })
+    const [isMobile, setIsMobile] = useState(false)
+    const [isHovered, setIsHovered] = useState(false)
+    const Icon = cat.icon
+
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+
+    const active = isMobile ? isInView : isHovered
+
+    return (
+        <motion.div
+            ref={ref}
+            key={cat.name}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.08 }}
+            viewport={{ once: true }}
+        >
+            <Link
+                href={cat.href}
+                className="relative block p-6 sm:p-8 rounded-2xl border transition-all duration-500 overflow-hidden"
+                style={{
+                    background: active ? cat.gradient : 'rgba(255,255,255,0.02)',
+                    borderColor: active ? cat.border : 'rgba(255,255,255,0.06)',
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+            >
+                <div className="relative z-10">
+                    <Icon
+                        className="w-8 h-8 mb-4 transition-colors duration-500"
+                        style={{ color: active ? cat.iconColor : 'rgba(255,255,255,0.3)' }}
+                    />
+                    <h3
+                        className="text-base sm:text-lg font-semibold transition-colors duration-300"
+                        style={{ color: active ? 'rgba(255,255,255,1)' : 'rgba(255,255,255,0.7)' }}
+                    >
+                        {cat.name}
+                    </h3>
+                    <span
+                        className="text-xs mt-1 block transition-colors duration-300"
+                        style={{ color: active ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)' }}
+                    >
+                        View tests →
+                    </span>
+                </div>
+            </Link>
+        </motion.div>
+    )
+}
 
 export function Markers() {
     return (
@@ -82,33 +141,9 @@ export function Markers() {
 
                 {/* Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                    {categories.map((cat, index) => {
-                        const Icon = cat.icon
-                        return (
-                            <motion.div
-                                key={cat.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4, delay: index * 0.08 }}
-                                viewport={{ once: true }}
-                            >
-                                <Link
-                                    href={cat.href}
-                                    className={`group relative block p-6 sm:p-8 rounded-2xl border border-white/[0.06] bg-white/[0.02] hover:bg-gradient-to-br ${cat.color} ${cat.borderColor} transition-all duration-500 overflow-hidden`}
-                                >
-                                    <div className="relative z-10">
-                                        <Icon className={`w-8 h-8 text-white/30 ${cat.iconColor} transition-colors duration-500 mb-4`} />
-                                        <h3 className="text-base sm:text-lg font-semibold text-white/70 group-hover:text-white transition-colors duration-300">
-                                            {cat.name}
-                                        </h3>
-                                        <span className="text-xs text-white/20 group-hover:text-white/50 transition-colors duration-300 mt-1 block">
-                                            View tests →
-                                        </span>
-                                    </div>
-                                </Link>
-                            </motion.div>
-                        )
-                    })}
+                    {categories.map((cat, index) => (
+                        <CategoryCard key={cat.name} cat={cat} index={index} />
+                    ))}
                 </div>
             </div>
         </section>
