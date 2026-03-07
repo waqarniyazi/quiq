@@ -54,7 +54,7 @@ const paymentIcons = [
   { name: 'RuPay', src: '/rupay.svg' },
   { name: 'BHIM UPI', src: '/bhim.svg' },
   { name: 'PhonePe', src: '/phonepe.svg' },
-  { name: 'CRED', src: '/cred.svg' },
+  { name: 'CRED', src: '/credpay.svg' },
 ]
 
 export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {

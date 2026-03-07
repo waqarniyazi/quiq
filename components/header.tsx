@@ -22,6 +22,7 @@ export function Header() {
     { label: 'Products', href: '/products' },
     { label: 'About', href: '/about' },
     { label: 'How It Works', href: '/how-it-works' },
+    { label: 'Investments', href: '/investments' },
     { label: 'Contact', href: '/contact' },
   ]
 

@@ -51,7 +51,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-8xl font-bold tracking-tight leading-[0.9] gradient-text mb-10"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-bold tracking-tight leading-[0.9] gradient-text mb-20"
         >
           Know Your Health.
           <br />
