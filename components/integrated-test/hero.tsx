@@ -138,9 +138,9 @@ export function IntegratedHero() {
                     transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="relative z-10 text-center mb-8"
                 >
-                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Integrated Self-Test</p>
+                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Self-Test</p>
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] gradient-text">
-                        HIV 1.2
+                        Integrated Pen Test
                     </h1>
                     <p className="text-sm sm:text-base text-white/30 mt-4 max-w-md mx-auto">
                         All-in-one rapid diagnostic. Reimagined.

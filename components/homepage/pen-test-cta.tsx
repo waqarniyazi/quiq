@@ -25,7 +25,7 @@ export function PenTestCTA() {
                             Our most advanced testing device. A single pen-style device that simplifies sample collection and delivers results faster than ever.
                         </p>
                         <Link
-                            href="/products/pen-test"
+                            href="/integrated-test"
                             className="inline-flex px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition-all duration-200 hover:scale-105"
                         >
                             Learn More

@@ -105,11 +105,11 @@ export function ExplodedView() {
 
     // Labels that appear at different scroll positions
     const labels = [
-        { text: 'Safety Lancet', sub: 'Sterile single-use', position: 'left-[8%] top-[38%]', showAt: [0.05, 0.4] },
-        { text: 'Absorbent Tip', sub: 'Smart blood collection', position: 'right-[8%] top-[35%]', showAt: [0.05, 0.4] },
-        { text: 'Test Strip', sub: 'HIV-1 & HIV-2 antigens', position: 'left-[30%] top-[20%]', showAt: [0.15, 0.5] },
-        { text: 'Buffer Chamber', sub: 'Pre-loaded reagent', position: 'right-[10%] top-[55%]', showAt: [0.1, 0.45] },
-        { text: 'Result Window', sub: 'C & T line display', position: 'left-[35%] bottom-[25%]', showAt: [0.1, 0.5] },
+        { text: 'Safety Lancet', sub: 'Sterile single-use', pos: 'left-[4%] sm:left-[8%] top-[35%] sm:top-[38%]', showAt: [0.05, 0.4] },
+        { text: 'Absorbent Tip', sub: 'Smart collection', pos: 'right-[4%] sm:right-[8%] top-[30%] sm:top-[35%]', showAt: [0.05, 0.4] },
+        { text: 'Test Strip', sub: 'HIV antigens', pos: 'left-[15%] sm:left-[30%] top-[20%]', showAt: [0.15, 0.5] },
+        { text: 'Buffer Chamber', sub: 'Pre-loaded reagent', pos: 'right-[6%] sm:right-[10%] top-[60%] sm:top-[55%]', showAt: [0.1, 0.45] },
+        { text: 'Result Window', sub: 'C & T lines', pos: 'left-[25%] sm:left-[35%] bottom-[25%]', showAt: [0.1, 0.5] },
     ]
 
     return (
@@ -143,21 +143,21 @@ export function ExplodedView() {
                 </div>
 
                 {/* Animated labels */}
-                <div className="absolute inset-0 z-20 pointer-events-none hidden lg:block">
+                <div className="absolute inset-0 z-20 pointer-events-none">
                     {labels.map((label, i) => {
                         const visible = progress >= label.showAt[0] && progress <= label.showAt[1]
                         return (
                             <div
                                 key={i}
-                                className={`absolute ${label.position} transition-all duration-500`}
+                                className={`absolute ${label.pos} transition-all duration-500`}
                                 style={{
                                     opacity: visible ? 1 : 0,
                                     transform: visible ? 'translateY(0)' : 'translateY(10px)',
                                 }}
                             >
-                                <div className="backdrop-blur-md bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5">
-                                    <p className="text-xs font-semibold text-white/80">{label.text}</p>
-                                    <p className="text-[10px] text-white/30">{label.sub}</p>
+                                <div className="backdrop-blur-md bg-white/[0.04] border border-white/[0.08] rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-4 sm:py-2.5 shadow-xl shadow-black/50 text-center sm:text-left mx-auto max-w-[90px] sm:max-w-none">
+                                    <p className="text-[10px] sm:text-xs font-semibold text-white/90 leading-tight">{label.text}</p>
+                                    <p className="text-[8px] sm:text-[10px] text-white/40 mt-0.5 hidden sm:block">{label.sub}</p>
                                 </div>
                             </div>
                         )
