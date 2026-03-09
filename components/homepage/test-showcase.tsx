@@ -1,71 +1,144 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { useRef } from 'react'
-import Image from 'next/image'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { motion } from 'framer-motion'
+
+const TOTAL_FRAMES = 151
+const FRAME_PATH = '/homepage/hero/ezgif-frame-'
+
+function getFrameSrc(index: number): string {
+    const padded = String(index).padStart(3, '0')
+    return `${FRAME_PATH}${padded}.webp`
+}
 
 export function TestShowcase() {
     const containerRef = useRef<HTMLDivElement>(null)
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ['start end', 'end start'],
-    })
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const imagesRef = useRef<HTMLImageElement[]>([])
+    const [loaded, setLoaded] = useState(false)
+    const currentFrameRef = useRef(0)
+    const rafRef = useRef<number>(0)
+    const [progress, setProgress] = useState(0)
 
-    // Image 1 (closed kit) animations
-    const image1Scale = useTransform(scrollYProgress, [0, 0.2, 0.4], [0.6, 1.1, 0.8])
-    const image1Opacity = useTransform(scrollYProgress, [0, 0.15, 0.35, 0.5], [0, 1, 1, 0])
-    const image1Y = useTransform(scrollYProgress, [0, 0.2, 0.4], [100, 0, -60])
-    const image1Rotate = useTransform(scrollYProgress, [0, 0.2, 0.4], [5, 0, -3])
+    // Preload all images
+    useEffect(() => {
+        let loadedCount = 0
+        const images: HTMLImageElement[] = []
 
-    // Image 2 (exploded view) animations
-    const image2Scale = useTransform(scrollYProgress, [0.35, 0.55, 0.75], [0.7, 1.05, 0.95])
-    const image2Opacity = useTransform(scrollYProgress, [0.35, 0.5, 0.7, 0.85], [0, 1, 1, 0])
-    const image2Y = useTransform(scrollYProgress, [0.35, 0.55, 0.75], [80, 0, -40])
-    const image2Rotate = useTransform(scrollYProgress, [0.35, 0.55, 0.75], [-5, 0, 2])
+        for (let i = 1; i <= TOTAL_FRAMES; i++) {
+            const img = new Image()
+            img.src = getFrameSrc(i)
+            img.onload = () => {
+                loadedCount++
+                if (loadedCount === TOTAL_FRAMES) {
+                    imagesRef.current = images
+                    setLoaded(true)
+                }
+            }
+            img.onerror = () => {
+                loadedCount++
+                if (loadedCount === TOTAL_FRAMES) {
+                    imagesRef.current = images
+                    setLoaded(true)
+                }
+            }
+            images.push(img)
+        }
+    }, [])
 
-    // Text animations
-    const text1Opacity = useTransform(scrollYProgress, [0.1, 0.2, 0.35, 0.45], [0, 1, 1, 0])
-    const text2Opacity = useTransform(scrollYProgress, [0.45, 0.55, 0.7, 0.8], [0, 1, 1, 0])
+    const drawFrame = useCallback((frameIndex: number) => {
+        const canvas = canvasRef.current
+        const ctx = canvas?.getContext('2d')
+        const img = imagesRef.current[frameIndex]
+        if (!canvas || !ctx || !img || !img.complete) return
 
-    // Glow
-    const glowOpacity = useTransform(scrollYProgress, [0, 0.3, 0.6, 1], [0, 0.6, 0.6, 0])
+        canvas.width = img.naturalWidth
+        canvas.height = img.naturalHeight
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(img, 0, 0)
+    }, [])
+
+    // Draw first frame when loaded
+    useEffect(() => {
+        if (loaded) {
+            drawFrame(0)
+        }
+    }, [loaded, drawFrame])
+
+    // Scroll-driven animation
+    useEffect(() => {
+        if (!loaded) return
+
+        const handleScroll = () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+
+            rafRef.current = requestAnimationFrame(() => {
+                const container = containerRef.current
+                if (!container) return
+
+                const rect = container.getBoundingClientRect()
+                const scrollHeight = container.offsetHeight - window.innerHeight
+                const scrolled = -rect.top
+                const prog = Math.max(0, Math.min(1, scrolled / scrollHeight))
+                setProgress(prog)
+
+                const frameIndex = Math.min(
+                    TOTAL_FRAMES - 1,
+                    Math.floor(prog * (TOTAL_FRAMES - 1))
+                )
+
+                if (frameIndex !== currentFrameRef.current) {
+                    currentFrameRef.current = frameIndex
+                    drawFrame(frameIndex)
+                }
+            })
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        handleScroll()
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+        }
+    }, [loaded, drawFrame])
+
+    const text1Visible = progress < 0.4
+    const text2Visible = progress > 0.4
 
     return (
-        <section ref={containerRef} className="relative bg-black" style={{ height: '300vh' }}>
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+        <section
+            ref={containerRef}
+            className="relative bg-black"
+            style={{ height: '350vh' }}
+        >
+            <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
                 {/* Ambient glow behind the product */}
-                <motion.div
-                    className="absolute w-[500px] h-[500px] rounded-full"
+                <div
+                    className="absolute w-[500px] h-[500px] rounded-full transition-opacity duration-500"
                     style={{
                         background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
-                        opacity: glowOpacity,
+                        opacity: progress < 0.8 ? 0.6 : 0,
                     }}
                 />
 
-                {/* Image 1 – Closed test kit */}
-                <motion.div
-                    className="absolute w-[320px] sm:w-[420px] md:w-[520px] lg:w-[600px]"
-                    style={{
-                        scale: image1Scale,
-                        opacity: image1Opacity,
-                        y: image1Y,
-                        rotate: image1Rotate,
-                    }}
-                >
-                    <Image
-                        src="/first image.png"
-                        alt="QUIQ Test Kit"
-                        width={600}
-                        height={600}
-                        className="w-full h-auto drop-shadow-2xl"
-                        priority
+                {/* Canvas for frame animation */}
+                <div className="relative z-10 w-full flex justify-center items-center px-4">
+                    <canvas
+                        ref={canvasRef}
+                        className="w-auto max-w-full max-h-[60vh] md:max-h-[75vh] object-contain"
+                        style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s' }}
                     />
-                </motion.div>
+                </div>
 
                 {/* Text label 1 */}
-                <motion.div
-                    className="absolute bottom-[15%] sm:bottom-[12%]"
-                    style={{ opacity: text1Opacity }}
+                <div
+                    className="absolute bottom-[15%] sm:bottom-[12%] z-20 transition-all duration-700"
+                    style={{
+                        opacity: text1Visible ? 1 : 0,
+                        transform: text1Visible ? 'translateY(0)' : 'translateY(20px)',
+                        pointerEvents: text1Visible ? 'auto' : 'none'
+                    }}
                 >
                     <p className="text-xs sm:text-sm text-white/40 tracking-[0.3em] uppercase text-center">
                         Premium Self-Test Kit
@@ -73,31 +146,16 @@ export function TestShowcase() {
                     <p className="text-white/20 text-xs text-center mt-1">
                         Everything you need. One elegant package.
                     </p>
-                </motion.div>
-
-                {/* Image 2 – Exploded view */}
-                <motion.div
-                    className="absolute w-[340px] sm:w-[450px] md:w-[560px] lg:w-[650px]"
-                    style={{
-                        scale: image2Scale,
-                        opacity: image2Opacity,
-                        y: image2Y,
-                        rotate: image2Rotate,
-                    }}
-                >
-                    <Image
-                        src="/second image.png"
-                        alt="QUIQ Test Kit – Contents"
-                        width={650}
-                        height={650}
-                        className="w-full h-auto drop-shadow-2xl"
-                    />
-                </motion.div>
+                </div>
 
                 {/* Text label 2 */}
-                <motion.div
-                    className="absolute bottom-[15%] sm:bottom-[12%]"
-                    style={{ opacity: text2Opacity }}
+                <div
+                    className="absolute bottom-[15%] sm:bottom-[12%] z-20 transition-all duration-700"
+                    style={{
+                        opacity: text2Visible ? 1 : 0,
+                        transform: text2Visible ? 'translateY(0)' : 'translateY(20px)',
+                        pointerEvents: text2Visible ? 'auto' : 'none'
+                    }}
                 >
                     <p className="text-xs sm:text-sm text-white/40 tracking-[0.3em] uppercase text-center">
                         What&apos;s Inside
@@ -105,7 +163,21 @@ export function TestShowcase() {
                     <p className="text-white/20 text-xs text-center mt-1">
                         Lancet · Pipette · Cassette · Buffer · Shade Card · Disposal Bag
                     </p>
-                </motion.div>
+                </div>
+
+                {/* Progress indicator */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+                    <div className="w-24 h-[1px] bg-white/[0.06] rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-white/20 rounded-full transition-all duration-100"
+                            style={{ width: `${progress * 100}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Gradient fades */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black to-transparent pointer-events-none" />
             </div>
         </section>
     )

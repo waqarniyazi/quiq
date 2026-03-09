@@ -10,37 +10,72 @@ import { getProduct, getRelatedProducts } from '@/lib/products'
 import { useCart } from '@/lib/cart'
 import { useState, useEffect, use } from 'react'
 
-function ImageCarousel({ slug, fallback }: { slug: string; fallback: string }) {
-  const [images, setImages] = useState<string[]>([fallback])
+function ImageCarousel({ slug, fallback, media }: { slug: string; fallback: string; media?: string[] }) {
+  const [items, setItems] = useState<string[]>(media && media.length > 0 ? media : [fallback])
   const [current, setCurrent] = useState(0)
 
   useEffect(() => {
-    // Try to load images 1-4 from /product/[slug]/
-    const tryImages = [1, 2, 3, 4].map(n => `/product/${slug}/${n}.png`)
+    if (media && media.length > 0) {
+      setItems(media)
+      return
+    }
+
+    let isMounted = true
     const loaded: string[] = []
-    let checked = 0
-    tryImages.forEach((src) => {
-      const img = new window.Image()
-      img.onload = () => { loaded.push(src); checked++; if (checked === 4 && loaded.length > 0) setImages(loaded.sort()) }
-      img.onerror = () => { checked++; if (checked === 4 && loaded.length > 0) setImages(loaded.sort()) }
-      img.src = src
-    })
-  }, [slug])
+    let n = 1
+
+    const checkNext = async () => {
+      if (!isMounted) return
+
+      const extensions = ['.webp', '.png', '.jpg', '.mp4']
+      let found = false
+
+      for (const ext of extensions) {
+        const src = `/product/${slug}/${n}${ext}`
+        try {
+          const res = await fetch(src, { method: 'HEAD' })
+          if (res.ok) {
+            found = true
+            loaded.push(src)
+            if (isMounted) setItems([...loaded])
+            n++
+            checkNext()
+            break
+          }
+        } catch (e) {
+          // proceed to check other extensions
+        }
+      }
+    }
+
+    checkNext()
+
+    return () => {
+      isMounted = false
+    }
+  }, [slug, media])
+
+  const renderMedia = (src: string) => {
+    if (src.endsWith('.mp4')) {
+      return <video src={src} autoPlay loop muted playsInline className="object-cover w-full h-full absolute inset-0" />
+    }
+    return <Image src={src} alt="Product" fill className="object-cover" priority />
+  }
 
   return (
     <div className="relative rounded-3xl overflow-hidden bg-white/[0.02] border border-white/[0.06] aspect-square">
-      <Image src={images[current]} alt="Product" fill className="object-cover" priority />
-      {images.length > 1 && (
+      {renderMedia(items[current])}
+      {items.length > 1 && (
         <>
           <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-            {images.map((_, i) => (
-              <button key={i} onClick={() => setCurrent(i)} className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-white w-6' : 'bg-white/30'}`} />
+            {items.map((_, i) => (
+              <button key={i} onClick={() => setCurrent(i)} className={`w-2 h-2 z-10 rounded-full transition-all ${i === current ? 'bg-white w-6' : 'bg-white/50'}`} />
             ))}
           </div>
-          <button onClick={() => setCurrent((current - 1 + images.length) % images.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white transition-all">
+          <button onClick={() => setCurrent((current - 1 + items.length) % items.length)} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white transition-all z-10">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button onClick={() => setCurrent((current + 1) % images.length)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white transition-all">
+          <button onClick={() => setCurrent((current + 1) % items.length)} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white transition-all z-10">
             <ChevronRight className="w-5 h-5" />
           </button>
         </>
@@ -94,7 +129,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-20">
             {/* Image Carousel */}
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <ImageCarousel slug={product.slug} fallback={product.image} />
+              <ImageCarousel slug={product.slug} fallback={product.image} media={product.media} />
             </motion.div>
 
             {/* Product Info */}

@@ -9,6 +9,7 @@ export interface Product {
     category: string
     image: string
     imageFolder?: string
+    media?: string[]
     rating: number
     reviewCount: number
     inStock: boolean
@@ -37,7 +38,7 @@ const vitaminD: Product = {
     id: 'vitamin-d', name: 'Vitamin D Self Test', slug: 'vitamin-d',
     shortDescription: 'Check your Vitamin D levels at home in minutes.',
     price: 99, originalPrice: 249, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/vitamin-d/1.png', imageFolder: '/product/vitamin-d',
+    image: '/product/vitamin-d/1.webp', imageFolder: '/product/vitamin-d',
     rating: 4.8, reviewCount: 342, inStock: true,
     features: ['Results in 10 min', 'Finger-prick', 'CE & IVD certified', 'Shade card'],
     description: 'Vitamin D is essential for bone health, immune function, and muscle strength. Deficiency is extremely common in India due to indoor lifestyles. Our test detects 25-hydroxy Vitamin D levels via a lateral flow immunoassay from a finger-prick sample.',
@@ -73,7 +74,7 @@ const ferritin: Product = {
     id: 'iron-deficiency', name: 'Iron Deficiency (Ferritin) Test', slug: 'iron-deficiency',
     shortDescription: 'Detect iron deficiency anemia quickly at home.',
     price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/iron-deficiency/1.png', imageFolder: '/product/iron-deficiency',
+    image: '/product/iron-deficiency/1.webp', imageFolder: '/product/iron-deficiency',
     rating: 4.7, reviewCount: 218, inStock: true,
     features: ['Results in 10 min', 'Ferritin detection', 'CE & IVD certified', 'No lab visit'],
     description: 'Iron deficiency affects over 50% of Indian women. Our test detects Ferritin — the protein that stores iron. Low Ferritin is the earliest indicator, even before anemia develops.',

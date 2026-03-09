@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 
-const TOTAL_FRAMES = 155
+const TOTAL_FRAMES = 114
 const FRAME_PATH = '/integrated-test/hero/ezgif-frame-'
 
 function getFrameSrc(index: number): string {
