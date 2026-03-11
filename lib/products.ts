@@ -38,7 +38,7 @@ const vitaminD: Product = {
     id: 'vitamin-d', name: 'Vitamin D Self Test', slug: 'vitamin-d',
     shortDescription: 'Check your Vitamin D levels at home in minutes.',
     price: 99, originalPrice: 249, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/vitamin-d/1.webp', imageFolder: '/product/vitamin-d',
+    image: '/product/vitamin-d/1.png', imageFolder: '/product/vitamin-d',
     rating: 4.8, reviewCount: 342, inStock: true,
     features: ['Results in 10 min', 'Finger-prick', 'CE & IVD certified', 'Shade card'],
     description: 'Vitamin D is essential for bone health, immune function, and muscle strength. Deficiency is extremely common in India due to indoor lifestyles. Our test detects 25-hydroxy Vitamin D levels via a lateral flow immunoassay from a finger-prick sample.',
@@ -56,7 +56,7 @@ const vitaminB12: Product = {
     id: 'vitamin-b12', name: 'Vitamin B12 Test', slug: 'vitamin-b12',
     shortDescription: 'Check B12 levels — crucial for nerve health.',
     price: 89, originalPrice: 229, currency: '₹', category: 'Wellness & Lifestyle',
-    image: 'product/vitamin-b12/1.png', imageFolder: '/product/vitamin-b12',
+    image: 'product/vitamin-b12/1.webp', imageFolder: '/product/vitamin-b12',
     rating: 4.7, reviewCount: 189, inStock: true,
     features: ['Results in 10 min', 'B12 detection', 'CE & IVD certified', 'Finger-prick'],
     description: 'Vitamin B12 is vital for nerve function, red blood cell formation, and DNA synthesis. Over 80% of Indian vegetarians are B12 deficient. Our test detects deficiency early so you can act.',
@@ -92,7 +92,7 @@ const tsh: Product = {
     id: 'tsh', name: 'TSH Thyroid Test', slug: 'tsh',
     shortDescription: 'Monitor thyroid function from home.',
     price: 79, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/tsh/1.png', imageFolder: '/product/tsh',
+    image: '/product/tsh/1.webp', imageFolder: '/product/tsh',
     rating: 4.9, reviewCount: 456, inStock: true,
     features: ['Results in 10 min', 'TSH detection', 'CE & IVD certified', 'Clinically accurate'],
     description: 'TSH is the key marker for thyroid function. Abnormal levels indicate hypo/hyperthyroidism — extremely common in India. Our test uses lateral flow technology from a finger-prick sample.',
@@ -103,104 +103,6 @@ const tsh: Product = {
         { name: 'Meera Iyer', location: 'Chennai', rating: 5, date: '2025-12-01', comment: 'I have Hashimoto\'s. Helps me track between lab visits.', verified: true },
         { name: 'Sanjay Gupta', location: 'Lucknow', rating: 5, date: '2025-11-15', comment: 'Detected my wife\'s thyroid issue early.', verified: true },
         { name: 'Nisha Reddy', location: 'Hyderabad', rating: 4, date: '2025-10-20', comment: 'Easy to use. Wish shade card had more detail.', verified: true },
-    ],
-}
-
-const hba1c: Product = {
-    id: 'hba1c', name: 'HbA1c Diabetes Test', slug: 'hba1c',
-    shortDescription: 'Monitor your average blood sugar levels over 3 months.',
-    price: 99, originalPrice: 299, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/hba1c/1.png', imageFolder: '/product/hba1c',
-    rating: 4.8, reviewCount: 312, inStock: true,
-    features: ['Results in 10 min', 'HbA1c detection', 'CE & IVD certified', '3-month average'],
-    description: 'HbA1c reflects your average blood sugar over the past 2-3 months. India is the diabetes capital of the world with 100M+ diabetics. This test helps monitor glucose control without fasting.',
-    whoIsItFor: ['Diabetics monitoring control', 'Pre-diabetic individuals', 'Family history of diabetes', 'Overweight or sedentary lifestyle', 'Regular health monitoring'],
-    howToTest: ['Wash hands with warm water', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to test device', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Below 5.7%: Normal', '5.7-6.4%: Pre-diabetic', '6.5%+: Diabetic range', 'Compare with shade card', 'Track over time'],
-    reviews: [
-        { name: 'Suresh Menon', location: 'Kerala', rating: 5, date: '2025-12-02', comment: 'Essential for managing my Type 2 diabetes at home.', verified: true },
-        { name: 'Anita Bose', location: 'Kolkata', rating: 4, date: '2025-11-18', comment: 'No fasting needed! Much more convenient than lab tests.', verified: true },
-    ],
-}
-
-const cholesterol: Product = {
-    id: 'cholesterol', name: 'Cholesterol Test', slug: 'cholesterol',
-    shortDescription: 'Check total cholesterol levels at home.',
-    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/cholesterol/1.png', imageFolder: '/product/cholesterol',
-    rating: 4.6, reviewCount: 178, inStock: true,
-    features: ['Results in 10 min', 'Total cholesterol', 'CE & IVD certified', 'No fasting needed'],
-    description: 'High cholesterol is a silent killer — no symptoms until it\'s too late. India sees rising heart disease rates. Our rapid test measures total cholesterol from a finger-prick sample.',
-    whoIsItFor: ['Adults over 30', 'Family history of heart disease', 'Sedentary lifestyle', 'High-fat diet', 'On cholesterol medication'],
-    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Below 200 mg/dL: Desirable', '200-239 mg/dL: Borderline', '240+ mg/dL: High', 'Compare with shade card', 'Consult doctor'],
-    reviews: [
-        { name: 'Rahul Das', location: 'Kolkata', rating: 5, date: '2025-11-10', comment: 'Found out my cholesterol was borderline. Changed my diet early.', verified: true },
-        { name: 'Meena Jain', location: 'Mumbai', rating: 4, date: '2025-10-22', comment: 'Quick and easy. Good for regular monitoring.', verified: true },
-    ],
-}
-
-const triglycerides: Product = {
-    id: 'triglycerides', name: 'Triglycerides Test', slug: 'triglycerides',
-    shortDescription: 'Measure triglyceride levels for heart health.',
-    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/triglycerides/1.png', imageFolder: '/product/triglycerides',
-    rating: 4.5, reviewCount: 112, inStock: true,
-    features: ['Results in 10 min', 'Triglyceride level', 'CE & IVD certified', 'Heart health marker'],
-    description: 'Elevated triglycerides increase cardiovascular risk. Combined with high cholesterol, they significantly raise heart attack risk. Monitor regularly with our simple home test.',
-    whoIsItFor: ['High cholesterol patients', 'Diabetics', 'Overweight individuals', 'Family history of heart disease', 'Regular health checks'],
-    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Below 150 mg/dL: Normal', '150-199 mg/dL: Borderline', '200+ mg/dL: High', 'Compare with shade card', 'Discuss with doctor'],
-    reviews: [
-        { name: 'Anil Kapoor', location: 'Delhi', rating: 4, date: '2025-10-15', comment: 'Good way to track alongside my cholesterol levels.', verified: true },
-    ],
-}
-
-const lactose: Product = {
-    id: 'lactose-intolerance', name: 'Lactose Intolerance Test', slug: 'lactose-intolerance',
-    shortDescription: 'Find out if you\'re lactose intolerant.',
-    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/lactose-intolerance/1.png', imageFolder: '/product/lactose-intolerance',
-    rating: 4.6, reviewCount: 145, inStock: true,
-    features: ['Results in 10 min', 'IgE detection', 'CE & IVD certified', 'Simple test'],
-    description: 'Lactose intolerance affects 60-70% of Indians. If you experience bloating, gas, or discomfort after dairy, this test helps confirm whether lactose is the cause.',
-    whoIsItFor: ['Bloating after dairy', 'Gas and digestive discomfort', 'Suspected food sensitivity', 'Family history of intolerance', 'Diet planning'],
-    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Two lines: Positive for lactose intolerance', 'Only C line: Not detected', 'Check line intensity', 'Adjust diet accordingly', 'Consult nutritionist'],
-    reviews: [
-        { name: 'Divya Nair', location: 'Chennai', rating: 5, date: '2025-11-05', comment: 'Finally explained years of bloating! Avoiding dairy now.', verified: true },
-    ],
-}
-
-const hPylori: Product = {
-    id: 'h-pylori', name: 'H. pylori Blood Test', slug: 'h-pylori',
-    shortDescription: 'Detect H. pylori — a common cause of ulcers.',
-    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/h-pylori/1.png', imageFolder: '/product/h-pylori',
-    rating: 4.7, reviewCount: 167, inStock: true,
-    features: ['Results in 10 min', 'H. pylori antibodies', 'CE & IVD certified', 'Ulcer screening'],
-    description: 'H. pylori bacteria infect over 60% of the Indian population and can cause gastritis, ulcers, and even stomach cancer if untreated. Our test detects H. pylori antibodies in blood.',
-    whoIsItFor: ['Chronic stomach pain', 'Frequent acidity or heartburn', 'Nausea or bloating', 'Family history of ulcers', 'Unexplained weight loss'],
-    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Two lines: H. pylori antibodies detected', 'Only C line: Not detected', 'Positive = consult gastroenterologist', 'Treatment is usually antibiotics', 'Retest after treatment'],
-    reviews: [
-        { name: 'Saurabh Mishra', location: 'Lucknow', rating: 5, date: '2025-10-28', comment: 'Had stomach issues for years. Finally identified H. pylori!', verified: true },
-    ],
-}
-
-const petAllergy: Product = {
-    id: 'pet-allergy', name: 'Pet Allergy Test', slug: 'pet-allergy',
-    shortDescription: 'Check if you\'re allergic to pet dander.',
-    price: 79, originalPrice: 179, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/pet-allergy/1.png', imageFolder: '/product/pet-allergy',
-    rating: 4.5, reviewCount: 98, inStock: true,
-    features: ['Results in 10 min', 'IgE detection', 'CE & IVD certified', 'Cat & dog dander'],
-    description: 'Pet allergies are triggered by proteins in animal dander, saliva, or urine. If you sneeze, get watery eyes, or have skin reactions around pets, this test can confirm.',
-    whoIsItFor: ['Sneezing around pets', 'Watery/itchy eyes near animals', 'Skin rashes after contact', 'Considering getting a pet', 'Asthma triggered by animals'],
-    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
-    howToReadResults: ['Two lines: Positive for pet allergy', 'Only C line: Not allergic', 'Intensity indicates severity', 'Consider antihistamines', 'Consult allergist'],
-    reviews: [
-        { name: 'Riya Sharma', location: 'Delhi', rating: 4, date: '2025-09-15', comment: 'Confirmed my suspicion about cat allergy. Now taking precautions.', verified: true },
     ],
 }
 
@@ -220,6 +122,106 @@ const dustAllergy: Product = {
     ],
 }
 
+const hba1c: Product = {
+    id: 'hba1c', name: 'HbA1c Diabetes Test', slug: 'hba1c',
+    shortDescription: 'Monitor your average blood sugar levels over 3 months.',
+    price: 99, originalPrice: 299, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/hba1c',
+    rating: 4.8, reviewCount: 312, inStock: true,
+    features: ['Results in 10 min', 'HbA1c detection', 'CE & IVD certified', '3-month average'],
+    description: 'HbA1c reflects your average blood sugar over the past 2-3 months. India is the diabetes capital of the world with 100M+ diabetics. This test helps monitor glucose control without fasting.',
+    whoIsItFor: ['Diabetics monitoring control', 'Pre-diabetic individuals', 'Family history of diabetes', 'Overweight or sedentary lifestyle', 'Regular health monitoring'],
+    howToTest: ['Wash hands with warm water', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to test device', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Below 5.7%: Normal', '5.7-6.4%: Pre-diabetic', '6.5%+: Diabetic range', 'Compare with shade card', 'Track over time'],
+    reviews: [
+        { name: 'Suresh Menon', location: 'Kerala', rating: 5, date: '2025-12-02', comment: 'Essential for managing my Type 2 diabetes at home.', verified: true },
+        { name: 'Anita Bose', location: 'Kolkata', rating: 4, date: '2025-11-18', comment: 'No fasting needed! Much more convenient than lab tests.', verified: true },
+    ],
+}
+
+const cholesterol: Product = {
+    id: 'cholesterol', name: 'Cholesterol Test', slug: 'cholesterol',
+    shortDescription: 'Check total cholesterol levels at home.',
+    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/cholesterol',
+    rating: 4.6, reviewCount: 178, inStock: true,
+    features: ['Results in 10 min', 'Total cholesterol', 'CE & IVD certified', 'No fasting needed'],
+    description: 'High cholesterol is a silent killer — no symptoms until it\'s too late. India sees rising heart disease rates. Our rapid test measures total cholesterol from a finger-prick sample.',
+    whoIsItFor: ['Adults over 30', 'Family history of heart disease', 'Sedentary lifestyle', 'High-fat diet', 'On cholesterol medication'],
+    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Below 200 mg/dL: Desirable', '200-239 mg/dL: Borderline', '240+ mg/dL: High', 'Compare with shade card', 'Consult doctor'],
+    reviews: [
+        { name: 'Rahul Das', location: 'Kolkata', rating: 5, date: '2025-11-10', comment: 'Found out my cholesterol was borderline. Changed my diet early.', verified: true },
+        { name: 'Meena Jain', location: 'Mumbai', rating: 4, date: '2025-10-22', comment: 'Quick and easy. Good for regular monitoring.', verified: true },
+    ],
+}
+
+const triglycerides: Product = {
+    id: 'triglycerides', name: 'Triglycerides Test', slug: 'triglycerides',
+    shortDescription: 'Measure triglyceride levels for heart health.',
+    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/triglycerides',
+    rating: 4.5, reviewCount: 112, inStock: true,
+    features: ['Results in 10 min', 'Triglyceride level', 'CE & IVD certified', 'Heart health marker'],
+    description: 'Elevated triglycerides increase cardiovascular risk. Combined with high cholesterol, they significantly raise heart attack risk. Monitor regularly with our simple home test.',
+    whoIsItFor: ['High cholesterol patients', 'Diabetics', 'Overweight individuals', 'Family history of heart disease', 'Regular health checks'],
+    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Below 150 mg/dL: Normal', '150-199 mg/dL: Borderline', '200+ mg/dL: High', 'Compare with shade card', 'Discuss with doctor'],
+    reviews: [
+        { name: 'Anil Kapoor', location: 'Delhi', rating: 4, date: '2025-10-15', comment: 'Good way to track alongside my cholesterol levels.', verified: true },
+    ],
+}
+
+const lactose: Product = {
+    id: 'lactose-intolerance', name: 'Lactose Intolerance Test', slug: 'lactose-intolerance',
+    shortDescription: 'Find out if you\'re lactose intolerant.',
+    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/lactose-intolerance',
+    rating: 4.6, reviewCount: 145, inStock: true,
+    features: ['Results in 10 min', 'IgE detection', 'CE & IVD certified', 'Simple test'],
+    description: 'Lactose intolerance affects 60-70% of Indians. If you experience bloating, gas, or discomfort after dairy, this test helps confirm whether lactose is the cause.',
+    whoIsItFor: ['Bloating after dairy', 'Gas and digestive discomfort', 'Suspected food sensitivity', 'Family history of intolerance', 'Diet planning'],
+    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Two lines: Positive for lactose intolerance', 'Only C line: Not detected', 'Check line intensity', 'Adjust diet accordingly', 'Consult nutritionist'],
+    reviews: [
+        { name: 'Divya Nair', location: 'Chennai', rating: 5, date: '2025-11-05', comment: 'Finally explained years of bloating! Avoiding dairy now.', verified: true },
+    ],
+}
+
+const hPylori: Product = {
+    id: 'h-pylori', name: 'H. pylori Blood Test', slug: 'h-pylori',
+    shortDescription: 'Detect H. pylori — a common cause of ulcers.',
+    price: 89, originalPrice: 199, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/h-pylori',
+    rating: 4.7, reviewCount: 167, inStock: true,
+    features: ['Results in 10 min', 'H. pylori antibodies', 'CE & IVD certified', 'Ulcer screening'],
+    description: 'H. pylori bacteria infect over 60% of the Indian population and can cause gastritis, ulcers, and even stomach cancer if untreated. Our test detects H. pylori antibodies in blood.',
+    whoIsItFor: ['Chronic stomach pain', 'Frequent acidity or heartburn', 'Nausea or bloating', 'Family history of ulcers', 'Unexplained weight loss'],
+    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Two lines: H. pylori antibodies detected', 'Only C line: Not detected', 'Positive = consult gastroenterologist', 'Treatment is usually antibiotics', 'Retest after treatment'],
+    reviews: [
+        { name: 'Saurabh Mishra', location: 'Lucknow', rating: 5, date: '2025-10-28', comment: 'Had stomach issues for years. Finally identified H. pylori!', verified: true },
+    ],
+}
+
+const petAllergy: Product = {
+    id: 'pet-allergy', name: 'Pet Allergy Test', slug: 'pet-allergy',
+    shortDescription: 'Check if you\'re allergic to pet dander.',
+    price: 79, originalPrice: 179, currency: '₹', category: 'Wellness & Lifestyle',
+    image: '/first image.webp', imageFolder: '/product/pet-allergy',
+    rating: 4.5, reviewCount: 98, inStock: true,
+    features: ['Results in 10 min', 'IgE detection', 'CE & IVD certified', 'Cat & dog dander'],
+    description: 'Pet allergies are triggered by proteins in animal dander, saliva, or urine. If you sneeze, get watery eyes, or have skin reactions around pets, this test can confirm.',
+    whoIsItFor: ['Sneezing around pets', 'Watery/itchy eyes near animals', 'Skin rashes after contact', 'Considering getting a pet', 'Asthma triggered by animals'],
+    howToTest: ['Wash hands', 'Clean fingertip', 'Prick finger', 'Collect blood', 'Apply to cassette', 'Add buffer', 'Read after 10 minutes'],
+    howToReadResults: ['Two lines: Positive for pet allergy', 'Only C line: Not allergic', 'Intensity indicates severity', 'Consider antihistamines', 'Consult allergist'],
+    reviews: [
+        { name: 'Riya Sharma', location: 'Delhi', rating: 4, date: '2025-09-15', comment: 'Confirmed my suspicion about cat allergy. Now taking precautions.', verified: true },
+    ],
+}
+
+
+
 // ——————————————————————————————————————————————
 // CANCER MARKERS
 // ——————————————————————————————————————————————
@@ -228,7 +230,7 @@ const psa: Product = {
     id: 'psa', name: 'PSA Prostate Test', slug: 'psa',
     shortDescription: 'Screen for prostate health at home.',
     price: 99, originalPrice: 299, currency: '₹', category: 'Cancer Markers',
-    image: '/product/psa/1.png', imageFolder: '/product/psa',
+    image: '/first image.webp', imageFolder: '/product/psa',
     rating: 4.8, reviewCount: 156, inStock: true,
     features: ['Results in 10 min', 'PSA marker', 'CE & IVD certified', 'Men\'s health'],
     description: 'PSA is produced by the prostate gland. Elevated levels may indicate enlargement, inflammation, or cancer. Regular screening is recommended for men over 50 (or 40 with family history).',
@@ -245,7 +247,7 @@ const crp: Product = {
     id: 'crp', name: 'CRP Inflammation Test', slug: 'crp',
     shortDescription: 'Detect inflammation levels in your body.',
     price: 89, originalPrice: 199, currency: '₹', category: 'Cancer Markers',
-    image: '/product/crp/1.png', imageFolder: '/product/crp',
+    image: '/first image.webp', imageFolder: '/product/crp',
     rating: 4.6, reviewCount: 123, inStock: true,
     features: ['Results in 10 min', 'CRP marker', 'CE & IVD certified', 'Inflammation screening'],
     description: 'C-Reactive Protein (CRP) is produced by the liver in response to inflammation. Elevated CRP can indicate infections, autoimmune diseases, or cancer. A key marker for overall health assessment.',

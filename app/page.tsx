@@ -10,6 +10,7 @@ import { Certifications } from '@/components/homepage/certifications'
 import { Testimonials } from '@/components/homepage/testimonials'
 import { PenTestCTA } from '@/components/homepage/pen-test-cta'
 import { Newsletter } from '@/components/homepage/newsletter'
+import { ProductCarousel } from '@/components/homepage/product-carousel'
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <TestShowcase />
         <ProblemStatement />
         <OurSolution />
+        <ProductCarousel />
         <HowItWorks />
         <Markers />
         <Certifications />
