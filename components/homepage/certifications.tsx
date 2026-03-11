@@ -1,8 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useLanguage } from '@/lib/i18n/context'
 
 export function Certifications() {
+    const { t } = useLanguage()
+
     return (
         <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-black">
             <div className="max-w-4xl mx-auto">
@@ -13,9 +16,9 @@ export function Certifications() {
                     viewport={{ once: true }}
                     className="text-center mb-12"
                 >
-                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Certified & Trusted</p>
+                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">{t('certifications.subtitle')}</p>
                     <h2 className="text-3xl sm:text-4xl font-bold gradient-text">
-                        Globally Recognized Standards
+                        {t('certifications.title')}
                     </h2>
                 </motion.div>
 
@@ -37,9 +40,9 @@ export function Certifications() {
                         </div>
                         <div className="text-center">
                             <p className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors duration-300">
-                                IVD Certified
+                                {t('certifications.ivd')}
                             </p>
-                            <p className="text-xs text-white/30 mt-1">In Vitro Diagnostic</p>
+                            <p className="text-xs text-white/30 mt-1">{t('certifications.ivdDesc')}</p>
                         </div>
                     </div>
 
@@ -53,9 +56,9 @@ export function Certifications() {
                         </div>
                         <div className="text-center">
                             <p className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors duration-300">
-                                CE Marked
+                                {t('certifications.ce')}
                             </p>
-                            <p className="text-xs text-white/30 mt-1">European Conformity</p>
+                            <p className="text-xs text-white/30 mt-1">{t('certifications.ceDesc')}</p>
                         </div>
                     </div>
                 </motion.div>

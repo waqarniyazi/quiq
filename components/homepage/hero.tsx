@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useLanguage } from '@/lib/i18n/context'
 
 export function Hero() {
+  const { t } = useLanguage()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* Ambient gradient orbs */}
@@ -51,12 +54,12 @@ export function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-bold tracking-tight leading-[0.9] gradient-text mb-20"
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-8xl font-bold tracking-tight leading-[1.1] gradient-text mb-24 sm:mb-20"
         >
-          Know Your Health.
+          {t('hero.line1')}
           <br />
-          <span className="block mt-2">In Minutes.</span>
-          <span className="block mt-2">At Home.</span>
+          <span className="block mt-2">{t('hero.line2')}</span>
+          <span className="block mt-2">{t('hero.line3')}</span>
         </motion.h1>
 
         {/* CTAs */}
@@ -64,19 +67,19 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-10"
         >
           <Link
             href="/products"
             className="px-8 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition-all duration-200 hover:scale-105"
           >
-            Explore Tests
+            {t('hero.cta1')}
           </Link>
           <Link
             href="/quiq-ai"
             className="px-8 py-3.5 rounded-full border border-white/20 text-white/80 font-medium text-sm hover:bg-white/5 hover:border-white/30 transition-all duration-200"
           >
-            QUIQ™ AI
+            {t('hero.cta2')}
           </Link>
         </motion.div>
       </div>

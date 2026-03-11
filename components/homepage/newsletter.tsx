@@ -3,10 +3,12 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
+import { useLanguage } from '@/lib/i18n/context'
 
 export function Newsletter() {
     const [email, setEmail] = useState('')
     const [submitted, setSubmitted] = useState(false)
+    const { t } = useLanguage()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -29,12 +31,12 @@ export function Newsletter() {
                     transition={{ duration: 0.6 }}
                     viewport={{ once: true }}
                 >
-                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Stay Updated</p>
+                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">{t('newsletter.subtitle')}</p>
                     <h2 className="text-3xl sm:text-4xl font-bold gradient-text mb-3">
-                        Join Our Newsletter
+                        {t('newsletter.title')}
                     </h2>
                     <p className="text-sm text-white/40 mb-8">
-                        Get the latest on new tests, health tips, and exclusive offers.
+                        {t('newsletter.desc')}
                     </p>
 
                     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -42,7 +44,7 @@ export function Newsletter() {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
+                            placeholder={t('newsletter.placeholder')}
                             required
                             className="flex-1 px-5 py-3.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-white placeholder:text-white/30 text-sm focus:outline-none focus:border-white/20 focus:bg-white/[0.06] transition-all duration-200"
                         />
@@ -50,9 +52,9 @@ export function Newsletter() {
                             type="submit"
                             className="px-6 py-3.5 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition-all duration-200 flex items-center justify-center gap-2 hover:scale-105"
                         >
-                            {submitted ? 'Subscribed!' : (
+                            {submitted ? t('newsletter.subscribed') : (
                                 <>
-                                    Subscribe
+                                    {t('newsletter.subscribe')}
                                     <ArrowRight className="w-4 h-4" />
                                 </>
                             )}
@@ -60,7 +62,7 @@ export function Newsletter() {
                     </form>
 
                     <p className="text-[11px] text-white/20 mt-4">
-                        No spam. Unsubscribe anytime.
+                        {t('newsletter.noSpam')}
                     </p>
                 </motion.div>
             </div>

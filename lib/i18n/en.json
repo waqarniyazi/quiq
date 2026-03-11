@@ -1,0 +1,115 @@
+{
+    "header": {
+        "products": "Products",
+        "about": "About",
+        "integratedTest": "Integrated Test",
+        "investments": "Investments",
+        "contact": "Contact",
+        "shopNow": "Shop Now",
+        "cart": "Cart"
+    },
+    "hero": {
+        "line1": "Test Your Health.",
+        "line2": "In Minutes.",
+        "line3": "Yourself.",
+        "cta1": "Test Yourself",
+        "cta2": "QUIQ™ AI"
+    },
+    "problemSolution": {
+        "problemSubtitle": "The Problem",
+        "problemTitle": "Diagnostics in India is Broken",
+        "solutionSubtitle": "Our Solution",
+        "solutionTitle": "Democratising Healthcare",
+        "speed": "Speed",
+        "accessibility": "Accessibility",
+        "affordability": "Affordability",
+        "speedProblem": "It takes 2–3 days just to test and diagnose Malaria in Tier 2 cities.",
+        "accessProblem": "In parts of India, people have to travel 2 hours just to get a simple test done.",
+        "affordProblem": "Simple lab tests cost over ₹500 — making routine screening a luxury for most.",
+        "speedSolution": "Quiq delivers accurate results in under 10 minutes — faster than boiling water.",
+        "accessSolution": "No lab visits, no appointments. Test yourself anywhere — your home, office, or village.",
+        "affordSolution": "Lab-grade diagnostics at a fraction of the cost. Healthcare that every Indian can afford.",
+        "quote": "Quiq™ aims to provide affordable and high quality self testing diagnostics to everyone in India"
+    },
+    "storyCards": {
+        "card1Title": "Something feels off?",
+        "card1Text": "Worried about your health but can't quite put a finger on it?\n\nYou're not alone.",
+        "card2Title": "Lab Test- Too Much Hassle?",
+        "card2Text": "Now diagnose from the comfort of your home. \n\nNo appointments. \nNo queues. \nNo hassle.",
+        "card3Title": "Introducing Quiq™ Self Test",
+        "card3Text": "Quiq™ introduces high quality self-test diagnostics. \n\nLab-grade accuracy. \nResults in minutes.",
+        "card4Title": "But self tests are only for Covid and Pregnancy right?",
+        "card4Text": "Not anymore. Quiq™ can test 30+ specific health conditions are wellness, infections, Cancer and cardiac markers, etc \n\n Right at home, by yourself.",
+        "card5Title": "Sounds expensive, right?",
+        "card5Text": "Lab tests can cost thousands. Insurance doesn't always cover screening. So we just… skip it.",
+        "card6Title": "Introducing Quiq™",
+        "card6Text": "Quiq™ is India's most affordable self-test diagnostic — starting at just ₹99. Healthcare for every household.",
+        "perTest": "per test"
+    },
+    "testWorking": {
+        "subtitle": "How It Works",
+        "title": "See It In Action",
+        "step1Title": "Add a Drop of Blood",
+        "step1Desc": "Prick your finger with the lancet and place a small drop of blood on the test strip.",
+        "step2Title": "Blood Travels Forward",
+        "step2Desc": "The blood naturally flows along the test strip through capillary action, picking up special markers as it moves.",
+        "step3Title": "Analyte Gets Captured",
+        "step3Desc": "As the blood moves through the strip, coloured lines appear — showing whether a health marker is detected.",
+        "step4Title": "Read Your Results",
+        "step4Desc": "Match the line on the test strip with the shade card to understand your result — it's that simple."
+    },
+    "testRange": {
+        "subtitle": "Our Tests",
+        "title": "Test Range",
+        "viewTest": "View Test →",
+        "viewAll": "View All Tests",
+        "perTest": "per test"
+    },
+    "markers": {
+        "subtitle": "What We Test",
+        "title": "Test Categories",
+        "vitamins": "Vitamins",
+        "hormones": "Hormones",
+        "metabolic": "Metabolic",
+        "immunity": "Immunity",
+        "heartHealth": "Heart Health",
+        "bloodWork": "Blood Work"
+    },
+    "certifications": {
+        "subtitle": "Certified & Trusted",
+        "title": "Globally Recognized Standards",
+        "ivd": "IVD Certified",
+        "ivdDesc": "In-Vitro Diagnostic Device certified for medical self-testing",
+        "ce": "CE Marked",
+        "ceDesc": "European conformity marking for safety and performance standards",
+        "iso": "ISO 13485",
+        "isoDesc": "Quality management system for medical devices"
+    },
+    "testimonials": {
+        "subtitle": "Testimonials",
+        "title": "Trusted by Doctors & Patients",
+        "doctor": "Doctor"
+    },
+    "penTestCta": {
+        "subtitle": "Self-Test",
+        "title": "Integrated Pen Test",
+        "desc": "Our most advanced testing device. A single pen-style device that simplifies sample collection and delivers results faster than ever.",
+        "cta": "Learn More",
+        "scrollHint": "Scroll to explore"
+    },
+    "newsletter": {
+        "subtitle": "Stay Updated",
+        "title": "Join Our Newsletter",
+        "desc": "Get the latest on new tests, health tips, and exclusive offers.",
+        "placeholder": "Enter your email",
+        "subscribe": "Subscribe",
+        "subscribed": "Subscribed!",
+        "noSpam": "No spam. Unsubscribe anytime."
+    },
+    "footer": {
+        "company": "Company",
+        "support": "Support",
+        "legal": "Legal",
+        "rights": "All rights reserved."
+    }
+}

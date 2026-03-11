@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
+import { useLanguage } from '@/lib/i18n/context'
 
 const testimonials = [
   {
@@ -35,6 +36,8 @@ const testimonials = [
 ]
 
 export function Testimonials() {
+  const { t } = useLanguage()
+
   return (
     <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-black">
       <div className="max-w-6xl mx-auto">
@@ -46,9 +49,9 @@ export function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Testimonials</p>
+          <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">{t('testimonials.subtitle')}</p>
           <h2 className="text-4xl sm:text-5xl font-bold gradient-text">
-            Trusted by Doctors & Patients
+            {t('testimonials.title')}
           </h2>
         </motion.div>
 
@@ -96,7 +99,7 @@ export function Testimonials() {
                 </div>
                 {testimonial.type === 'doctor' && (
                   <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-white/30">
-                    Doctor
+                    {t('testimonials.doctor')}
                   </span>
                 )}
               </div>

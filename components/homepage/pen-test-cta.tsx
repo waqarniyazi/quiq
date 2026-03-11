@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useLanguage } from '@/lib/i18n/context'
 
 const TOTAL_FRAMES = 114
 const FRAME_PATH = '/integrated-test/hero/ezgif-frame-'
@@ -19,6 +20,7 @@ export function PenTestCTA() {
     const [loaded, setLoaded] = useState(false)
     const currentFrameRef = useRef(0)
     const rafRef = useRef<number>(0)
+    const { t } = useLanguage()
 
     // Preload all images
     useEffect(() => {
@@ -139,18 +141,18 @@ export function PenTestCTA() {
                     transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
                     className="relative z-10 text-center mb-8"
                 >
-                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">Self-Test</p>
-                    <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl font-bold tracking-tight leading-[0.9] gradient-text">
-                        Integrated Pen Test
+                    <p className="text-xs text-white/30 tracking-[0.3em] uppercase mb-4">{t('penTestCta.subtitle')}</p>
+                    <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl font-bold tracking-tight leading-[1.1] gradient-text">
+                        {t('penTestCta.title')}
                     </h1>
                     <p className="text-sm sm:text-base text-white/30 mt-4 mb-8 max-w-md mx-auto">
-                        Our most advanced testing device. A single pen-style device that simplifies sample collection and delivers results faster than ever.
+                        {t('penTestCta.desc')}
                     </p>
                     <Link
                         href="/integrated-test"
                         className="inline-flex px-8 py-3 rounded-full bg-white text-black font-medium text-sm hover:bg-white/90 transition-all duration-200 hover:scale-105"
                     >
-                        Learn More
+                        {t('penTestCta.cta')}
                     </Link>
                 </motion.div>
 
@@ -175,7 +177,7 @@ export function PenTestCTA() {
                     transition={{ delay: 1.5, duration: 0.8 }}
                     className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
                 >
-                    <span className="text-[10px] text-white/20 tracking-[0.3em] uppercase">Scroll to explore</span>
+                    <span className="text-[10px] text-white/20 tracking-[0.3em] uppercase">{t('penTestCta.scrollHint')}</span>
                     <motion.div
                         animate={{ y: [0, 6, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
