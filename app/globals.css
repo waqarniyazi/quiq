@@ -170,3 +170,17 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Blog article prose styles */
+article {
+  line-height: 1.8;
+}
+
+article img {
+  border-radius: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+article > *:first-child {
+  margin-top: 0;
+}

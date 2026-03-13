@@ -1,0 +1,17 @@
+export const postComponents: Record<string, () => Promise<{ default: React.ComponentType<any> }>> = {
+  'vitamin-d-deficiency-india-silent-epidemic': () => import('@/content/blog/en/vitamin-d-deficiency-india-silent-epidemic.mdx'),
+  'ce-ivd-certified-health-test-labels': () => import('@/content/blog/en/ce-ivd-certified-health-test-labels.mdx'),
+  'crp-inflammation-why-you-should-care': () => import('@/content/blog/en/crp-inflammation-why-you-should-care.mdx'),
+  'dengue-season-symptoms-early-detection': () => import('@/content/blog/en/dengue-season-symptoms-early-detection.mdx'),
+  'heart-attack-warning-signs-troponin-test': () => import('@/content/blog/en/heart-attack-warning-signs-troponin-test.mdx'),
+  'hiv-testing-india-breaking-stigma-home-kits': () => import('@/content/blog/en/hiv-testing-india-breaking-stigma-home-kits.mdx'),
+  'india-diagnostic-desert-health-test-access': () => import('@/content/blog/en/india-diagnostic-desert-health-test-access.mdx'),
+  'iron-deficiency-anaemia-ferritin-test': () => import('@/content/blog/en/iron-deficiency-anaemia-ferritin-test.mdx'),
+  'lab-tests-india-expensive-inconvenient': () => import('@/content/blog/en/lab-tests-india-expensive-inconvenient.mdx'),
+  'malaria-india-monsoon-threat-rapid-testing': () => import('@/content/blog/en/malaria-india-monsoon-threat-rapid-testing.mdx'),
+  'monthly-health-monitoring-routine-home': () => import('@/content/blog/en/monthly-health-monitoring-routine-home.mdx'),
+  'psa-testing-prostate-cancer-indian-men': () => import('@/content/blog/en/psa-testing-prostate-cancer-indian-men.mdx'),
+  'self-test-kits-beyond-covid-pregnancy': () => import('@/content/blog/en/self-test-kits-beyond-covid-pregnancy.mdx'),
+  'thyroid-epidemic-india-tsh-testing': () => import('@/content/blog/en/thyroid-epidemic-india-tsh-testing.mdx'),
+  'urban-indians-vitamin-b12-deficiency': () => import('@/content/blog/en/urban-indians-vitamin-b12-deficiency.mdx'),
+}

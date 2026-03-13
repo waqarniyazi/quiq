@@ -2,16 +2,25 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
 import { Droplets, ArrowRight, Target, Palette } from 'lucide-react'
 import { useLanguage } from '@/lib/i18n/context'
 
-const TOTAL_FRAMES = 258
-const FRAME_PATH = '/test-working/ezgif-frame-'
+// Steps 1-3 frames
+const FRAMES_STEPS_1_3 = 258
+const FRAME_PATH_1_3 = '/test-working/ezgif-frame-'
 
-function getFrameSrc(index: number): string {
+// Step 4 frames
+const FRAMES_STEP_4 = 241
+const FRAME_PATH_4 = '/read%20results/ezgif-frame-'
+
+function getFrameSrc13(index: number): string {
     const padded = String(index).padStart(3, '0')
-    return `${FRAME_PATH}${padded}.webp`
+    return `${FRAME_PATH_1_3}${padded}.webp`
+}
+
+function getFrameSrc4(index: number): string {
+    const padded = String(index).padStart(3, '0')
+    return `${FRAME_PATH_4}${padded}.webp`
 }
 
 const stepDefs = [
@@ -23,6 +32,7 @@ const stepDefs = [
         startFrame: 1,
         endFrame: 28,
         weight: 1.5,
+        sequence: 'steps13' as const,
     },
     {
         label: '02',
@@ -32,6 +42,7 @@ const stepDefs = [
         startFrame: 29,
         endFrame: 93,
         weight: 2,
+        sequence: 'steps13' as const,
     },
     {
         label: '03',
@@ -41,16 +52,17 @@ const stepDefs = [
         startFrame: 94,
         endFrame: 258,
         weight: 1.5,
+        sequence: 'steps13' as const,
     },
     {
         label: '04',
         titleKey: 'testWorking.step4Title',
         descKey: 'testWorking.step4Desc',
         icon: Palette,
-        startFrame: 258,
-        endFrame: 258,
+        startFrame: 1,
+        endFrame: 241,
         weight: 2,
-        showShadeCard: true,
+        sequence: 'step4' as const,
     },
 ]
 
@@ -58,9 +70,12 @@ export function TestWorking() {
     const containerRef = useRef<HTMLDivElement>(null)
     const desktopCanvasRef = useRef<HTMLCanvasElement>(null)
     const mobileCanvasRef = useRef<HTMLCanvasElement>(null)
-    const imagesRef = useRef<HTMLImageElement[]>([])
-    const [loaded, setLoaded] = useState(false)
+    const images13Ref = useRef<HTMLImageElement[]>([])
+    const images4Ref = useRef<HTMLImageElement[]>([])
+    const [loaded13, setLoaded13] = useState(false)
+    const [loaded4, setLoaded4] = useState(false)
     const currentFrameRef = useRef(0)
+    const currentSequenceRef = useRef<'steps13' | 'step4'>('steps13')
     const rafRef = useRef<number>(0)
     const [activeStep, setActiveStep] = useState(0)
     const [progress, setProgress] = useState(0)
@@ -74,36 +89,61 @@ export function TestWorking() {
 
     const totalWeight = steps.reduce((sum: number, s: { weight: number }) => sum + s.weight, 0)
 
-    // Preload all images
+    // Preload steps 1-3 frames
     useEffect(() => {
         let loadedCount = 0
         const images: HTMLImageElement[] = []
-        for (let i = 1; i <= TOTAL_FRAMES; i++) {
+        for (let i = 1; i <= FRAMES_STEPS_1_3; i++) {
             const img = new window.Image()
-            img.src = getFrameSrc(i)
+            img.src = getFrameSrc13(i)
             img.onload = () => {
                 loadedCount++
-                if (loadedCount === TOTAL_FRAMES) {
-                    imagesRef.current = images
-                    setLoaded(true)
+                if (loadedCount === FRAMES_STEPS_1_3) {
+                    images13Ref.current = images
+                    setLoaded13(true)
                 }
             }
             img.onerror = () => {
                 loadedCount++
-                if (loadedCount === TOTAL_FRAMES) {
-                    imagesRef.current = images
-                    setLoaded(true)
+                if (loadedCount === FRAMES_STEPS_1_3) {
+                    images13Ref.current = images
+                    setLoaded13(true)
                 }
             }
             images.push(img)
         }
     }, [])
 
-    const drawFrame = useCallback((frameIndex: number) => {
-        const img = imagesRef.current[frameIndex]
+    // Preload step 4 frames
+    useEffect(() => {
+        let loadedCount = 0
+        const images: HTMLImageElement[] = []
+        for (let i = 1; i <= FRAMES_STEP_4; i++) {
+            const img = new window.Image()
+            img.src = getFrameSrc4(i)
+            img.onload = () => {
+                loadedCount++
+                if (loadedCount === FRAMES_STEP_4) {
+                    images4Ref.current = images
+                    setLoaded4(true)
+                }
+            }
+            img.onerror = () => {
+                loadedCount++
+                if (loadedCount === FRAMES_STEP_4) {
+                    images4Ref.current = images
+                    setLoaded4(true)
+                }
+            }
+            images.push(img)
+        }
+    }, [])
+
+    const drawFrame = useCallback((frameIndex: number, sequence: 'steps13' | 'step4') => {
+        const imagesArr = sequence === 'steps13' ? images13Ref.current : images4Ref.current
+        const img = imagesArr[frameIndex]
         if (!img || !img.complete) return
 
-        // Draw on both canvases
         const canvases = [desktopCanvasRef.current, mobileCanvasRef.current]
         canvases.forEach(canvas => {
             if (!canvas) return
@@ -117,12 +157,12 @@ export function TestWorking() {
     }, [])
 
     useEffect(() => {
-        if (loaded) drawFrame(0)
-    }, [loaded, drawFrame])
+        if (loaded13) drawFrame(0, 'steps13')
+    }, [loaded13, drawFrame])
 
     // Scroll-driven animation
     useEffect(() => {
-        if (!loaded) return
+        if (!loaded13) return
         const handleScroll = () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
             rafRef.current = requestAnimationFrame(() => {
@@ -138,6 +178,7 @@ export function TestWorking() {
                 let accWeight = 0
                 let currentStep = 0
                 let frameIndex = 0
+                let sequence: 'steps13' | 'step4' = 'steps13'
 
                 for (let i = 0; i < steps.length; i++) {
                     const stepStart = accWeight / totalWeight
@@ -147,29 +188,39 @@ export function TestWorking() {
                     if (prog >= stepStart && prog < stepEnd) {
                         currentStep = i
                         const stepProgress = (prog - stepStart) / (stepEnd - stepStart)
-                        if (steps[i].showShadeCard) {
-                            frameIndex = TOTAL_FRAMES - 1
-                        } else {
-                            const startF = steps[i].startFrame - 1
-                            const endF = steps[i].endFrame - 1
-                            frameIndex = Math.min(endF, Math.floor(startF + stepProgress * (endF - startF)))
-                        }
+                        sequence = steps[i].sequence
+
+                        const startF = steps[i].startFrame - 1
+                        const endF = steps[i].endFrame - 1
+                        frameIndex = Math.min(endF, Math.floor(startF + stepProgress * (endF - startF)))
                         break
                     } else if (prog >= (accWeight / totalWeight)) {
                         currentStep = Math.min(steps.length - 1, i + 1)
+                        sequence = steps[i].sequence
                         frameIndex = steps[i].endFrame - 1
                     }
                 }
 
                 if (prog >= 0.99) {
                     currentStep = steps.length - 1
-                    frameIndex = TOTAL_FRAMES - 1
+                    sequence = 'step4'
+                    frameIndex = FRAMES_STEP_4 - 1
                 }
 
                 setActiveStep(currentStep)
-                if (frameIndex !== currentFrameRef.current) {
+
+                // Only draw if frame or sequence changed
+                if (frameIndex !== currentFrameRef.current || sequence !== currentSequenceRef.current) {
                     currentFrameRef.current = frameIndex
-                    drawFrame(frameIndex)
+                    currentSequenceRef.current = sequence
+
+                    // For step 4, only draw if those frames are loaded
+                    if (sequence === 'step4' && !loaded4) {
+                        // Show last frame of steps 1-3 as fallback
+                        drawFrame(FRAMES_STEPS_1_3 - 1, 'steps13')
+                    } else {
+                        drawFrame(frameIndex, sequence)
+                    }
                 }
             })
         }
@@ -180,9 +231,9 @@ export function TestWorking() {
             window.removeEventListener('scroll', handleScroll)
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
         }
-    }, [loaded, drawFrame])
+    }, [loaded13, loaded4, drawFrame])
 
-    const isShadeCardStep = activeStep === 3
+    const loaded = loaded13
 
     return (
         <section
@@ -210,26 +261,11 @@ export function TestWorking() {
                 <div className="hidden md:flex flex-1 items-center max-w-7xl mx-auto w-full px-6 lg:px-12 gap-8 lg:gap-16">
                     {/* Visual — left */}
                     <div className="flex-1 flex items-center justify-center relative">
-                        {/* Canvas for frames (steps 1-3) */}
                         <canvas
                             ref={desktopCanvasRef}
                             className="max-w-full max-h-[60vh] w-auto h-auto object-contain transition-opacity duration-500"
-                            style={{ opacity: loaded && !isShadeCardStep ? 1 : 0 }}
+                            style={{ opacity: loaded ? 1 : 0 }}
                         />
-                        {/* Shade card image (step 4) */}
-                        <div
-                            className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-                            style={{ opacity: isShadeCardStep ? 1 : 0, pointerEvents: isShadeCardStep ? 'auto' : 'none' }}
-                        >
-                            <div className="relative w-full max-w-lg h-[50vh]">
-                                <Image
-                                    src="/shade-card.webp"
-                                    alt="Shade card — compare T line intensity"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
-                        </div>
                     </div>
 
                     {/* Steps — right */}
@@ -280,26 +316,11 @@ export function TestWorking() {
                 <div className="flex md:hidden flex-col flex-1 px-4 pb-6">
                     {/* Visual — top */}
                     <div className="flex-1 flex items-center justify-center min-h-0 relative">
-                        {/* Canvas for frames (steps 1-3) */}
                         <canvas
                             ref={mobileCanvasRef}
                             className="max-w-full max-h-[40vh] w-auto h-auto object-contain transition-opacity duration-500"
-                            style={{ opacity: loaded && !isShadeCardStep ? 1 : 0 }}
+                            style={{ opacity: loaded ? 1 : 0 }}
                         />
-                        {/* Shade card image (step 4) */}
-                        <div
-                            className="absolute inset-0 flex items-center justify-center transition-opacity duration-500"
-                            style={{ opacity: isShadeCardStep ? 1 : 0, pointerEvents: isShadeCardStep ? 'auto' : 'none' }}
-                        >
-                            <div className="relative w-full h-[35vh]">
-                                <Image
-                                    src="/shade-card.webp"
-                                    alt="Shade card"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
-                        </div>
                     </div>
 
                     {/* Active step — bottom */}
