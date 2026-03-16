@@ -27,8 +27,11 @@
         "accessProblem": "भारतातील काही भागांत लोकांना एक साधी तपासणी करण्यासाठी 2 तास प्रवास करावा लागतो.",
         "affordProblem": "साध्या लॅब टेस्टची किंमत ₹500 पेक्षा जास्त — नियमित तपासणी बहुतेकांसाठी खर्चिक.",
         "speedSolution": "Quiq 10 मिनिटांत अचूक निकाल देतो — पाणी उकळण्यापेक्षाही वेगवान.",
-        "accessSolution": "लॅब भेट नाही, अपॉइंटमेंट नाही. कुठेही तपासा — घर, ऑफिस किंवा गाव.",
-        "affordSolution": "लॅब-ग्रेड डायग्नोस्टिक्स अत्यंत कमी किमतीत. प्रत्येक भारतीयासाठी आरोग्य सेवा.",
+        "accessSolution": "कोणत्याही लॅब भेटी नाहीत, अपॉइंटमेंट्स नाहीत. कुठेही तुमची स्वतःची चाचणी घ्या — तुमचे घर, ऑफिस किंवा गाव.",
+        "affordSolution": "खर्चाच्या काही अंशावर प्रयोगशाळेच्या दर्जाचे निदान. प्रत्येक भारतीयाला परवडेल अशी आरोग्य सेवा.",
+        "privacy": "Privacy",
+        "privacyProblem": "Visiting clinics requires answering uncomfortable questions and risking your medical confidentiality.",
+        "privacySolution": "100% private. Test discreetly at home, knowing your health data is for your eyes only.",
         "quote": "Quiq™ चे ध्येय आहे भारतातील प्रत्येक व्यक्तीला परवडणारे आणि उच्च दर्जाचे सेल्फ-टेस्ट डायग्नोस्टिक्स उपलब्ध करून देणे"
     },
     "storyCards": {

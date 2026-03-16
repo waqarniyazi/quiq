@@ -9,7 +9,7 @@
         "cart": "Cart"
     },
     "hero": {
-        "line1": "Test Your Health.",
+        "line1": "Test Your Health?",
         "line2": "In Minutes.",
         "line3": "Yourself.",
         "cta1": "Test Yourself",
@@ -17,7 +17,7 @@
     },
     "problemSolution": {
         "problemSubtitle": "The Problem",
-        "problemTitle": "Diagnostics in India is Broken",
+        "problemTitle": "Diagnostics in India is a Luxury",
         "solutionSubtitle": "Our Solution",
         "solutionTitle": "Democratising Healthcare",
         "speed": "Speed",
@@ -29,6 +29,9 @@
         "speedSolution": "Quiq delivers accurate results in under 10 minutes — faster than boiling water.",
         "accessSolution": "No lab visits, no appointments. Test yourself anywhere — your home, office, or village.",
         "affordSolution": "Lab-grade diagnostics at a fraction of the cost. Healthcare that every Indian can afford.",
+        "privacy": "Privacy",
+        "privacyProblem": "Visiting clinics requires answering uncomfortable questions and risking your medical confidentiality.",
+        "privacySolution": "100% private. Test discreetly at home, knowing your health data is for your eyes only.",
         "quote": "Quiq™ aims to provide affordable and high quality self testing diagnostics to everyone in India"
     },
     "storyCards": {

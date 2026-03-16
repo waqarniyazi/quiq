@@ -2,17 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Clock, MapPin, IndianRupee, Zap, Home, Coins, X, Check } from 'lucide-react'
+import { Clock, MapPin, IndianRupee, Zap, Home, Coins, X, Check, EyeOff, ShieldCheck } from 'lucide-react'
 import { useLanguage } from '@/lib/i18n/context'
 
 const cardDefs = [
-    {
-        icon: Clock,
-        labelKey: 'problemSolution.speed',
-        problemKey: 'problemSolution.speedProblem',
-        solutionIcon: Zap,
-        solutionKey: 'problemSolution.speedSolution',
-    },
+
     {
         icon: MapPin,
         labelKey: 'problemSolution.accessibility',
@@ -26,6 +20,20 @@ const cardDefs = [
         problemKey: 'problemSolution.affordProblem',
         solutionIcon: Coins,
         solutionKey: 'problemSolution.affordSolution',
+    },
+    {
+        icon: Clock,
+        labelKey: 'problemSolution.speed',
+        problemKey: 'problemSolution.speedProblem',
+        solutionIcon: Zap,
+        solutionKey: 'problemSolution.speedSolution',
+    },
+    {
+        icon: EyeOff,
+        labelKey: 'problemSolution.privacy',
+        problemKey: 'problemSolution.privacyProblem',
+        solutionIcon: ShieldCheck,
+        solutionKey: 'problemSolution.privacySolution',
     },
 ]
 
@@ -99,7 +107,7 @@ export function ProblemSolution() {
                 </div>
 
                 {/* Flippable cards */}
-                <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-5 md:gap-6">
+                <div className="max-w-6xl w-full grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-5 md:gap-6">
                     {cardDefs.map((card, i) => {
                         const ProbIcon = card.icon
                         const SolIcon = card.solutionIcon
@@ -113,7 +121,7 @@ export function ProblemSolution() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                                 viewport={{ once: true }}
-                                className="relative h-[130px] sm:h-[220px]"
+                                className="relative h-[150px] sm:h-[220px]"
                                 style={{ perspective: '1000px' }}
                             >
                                 <div
@@ -129,16 +137,16 @@ export function ProblemSolution() {
                                         style={{ backfaceVisibility: 'hidden' }}
                                     >
                                         <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-5">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/[0.04] flex items-center justify-center">
+                                            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/[0.04] flex items-center justify-center shrink-0">
                                                 <ProbIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white/30" />
                                             </div>
-                                            <span className="text-sm sm:text-lg font-semibold text-white/50">{label}</span>
-                                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center ml-auto sm:ml-1">
+                                            <span className="text-xs sm:text-lg font-semibold text-white/50 truncate flex-1">{label}</span>
+                                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center shrink-0">
                                                 <X className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-500/70" />
                                             </div>
                                         </div>
 
-                                        <p className="text-[11px] sm:text-sm text-white/40 leading-snug sm:leading-relaxed flex-1 line-clamp-3 sm:line-clamp-none">
+                                        <p className="text-[11px] sm:text-sm text-white/40 leading-snug sm:leading-relaxed flex-1 overflow-hidden">
                                             {problemText}
                                         </p>
                                     </div>
@@ -149,16 +157,16 @@ export function ProblemSolution() {
                                         style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                                     >
                                         <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-5">
-                                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/[0.06] flex items-center justify-center">
+                                            <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/[0.06] flex items-center justify-center shrink-0">
                                                 <SolIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white/60" />
                                             </div>
-                                            <span className="text-sm sm:text-lg font-semibold text-white/80">{label}</span>
-                                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center ml-auto sm:ml-1">
+                                            <span className="text-xs sm:text-lg font-semibold text-white/80 truncate flex-1">{label}</span>
+                                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
                                                 <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-500/70" />
                                             </div>
                                         </div>
 
-                                        <p className="text-[11px] sm:text-sm text-white/50 leading-snug sm:leading-relaxed flex-1 line-clamp-3 sm:line-clamp-none">
+                                        <p className="text-[11px] sm:text-sm text-white/50 leading-snug sm:leading-relaxed flex-1 overflow-hidden">
                                             {solutionText}
                                         </p>
                                     </div>
