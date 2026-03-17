@@ -12,6 +12,8 @@ import { PenTestCTA } from '@/components/homepage/pen-test-cta'
 import { Newsletter } from '@/components/homepage/newsletter'
 import { ProductCarousel } from '@/components/homepage/product-carousel'
 import { StoryCards } from '@/components/homepage/story-cards'
+import { ProductShowcase } from '@/components/homepage/product-showcase'
+import { BrandMarquee } from '@/components/homepage/brand-marquee'
 
 export default function Home() {
   return (
@@ -19,8 +21,9 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <ProblemSolution />
         <StoryCards />
+        <ProductShowcase />
+        <BrandMarquee />
         <TestShowcase />
         <ProductCarousel />
         <TestWorking />

@@ -9,9 +9,11 @@
         "cart": "Cart"
     },
     "hero": {
-        "line1": "Test Your Health?",
-        "line2": "In Minutes.",
-        "line3": "Yourself.",
+        "title": "Imagine Testing for Cancer \n At Home \n In 5 Mins \n For ₹99",
+        "titleLine1Prefix": "Imagine Testing for ",
+        "titleLine1Suffix": "",
+        "diseasesStr": "Cancer, Diabetes, Anemia",
+        "subtitle": "And that's just one of 20+ tests you can now do yourself.",
         "cta1": "Test Yourself",
         "cta2": "QUIQ™ AI"
     },
@@ -35,18 +37,14 @@
         "quote": "Quiq™ aims to provide affordable and high quality self testing diagnostics to everyone in India"
     },
     "storyCards": {
-        "card1Title": "Something feels off?",
-        "card1Text": "Worried about your health but can't quite put a finger on it?\n\nYou're not alone.",
-        "card2Title": "Lab Tests- Too Much Hassle?",
-        "card2Text": "Now diagnose from the comfort of your home. \n\nNo appointments. \nNo queues. \nNo hassle.",
-        "card3Title": "Introducing Quiq™ Self Test",
-        "card3Text": "Quiq™ introduces high quality self-test diagnostics. \n\nLab-grade accuracy. \nResults in minutes.",
-        "card4Title": "But self tests are only for Covid and Pregnancy right?",
-        "card4Text": "Not anymore. Quiq™ self tests has a range of 30+ specific health conditions in areas of wellness, infections, Cancer and cardiac markers, etc \n\n Right at home, by yourself.",
-        "card5Title": "Sounds expensive, right?",
-        "card5Text": "Lab tests can cost thousands. Insurance doesn't always cover screening. So we just… skip it.",
-        "card6Title": "Introducing Quiq™",
-        "card6Text": "Quiq™ is India's most affordable self-test diagnostic — starting at just ₹99. Healthcare for every household.",
+        "card1Title": "Phir Se..?",
+        "card1Text": "Doctor: “Suresh ji, ye kuch tests karwane honge…”\n\nPapa (worried): “Matlab ab fir lab jaana padega…”",
+        "card2Title": "A confident answer",
+        "card2Text": "Daughter: “All these tests are available ✓”\n\nPapa: “So should I wait for 2 days?”\n\nDaughter: “Why? You can do it in 15 minutes using Quiq”\n\nAb lab / hospital ko ghar le aaye.",
+        "card3Title": "“Ab ghar baithe karo”",
+        "card3Text": "Instant results in 15 minutes.\n\nTake control of your health accurately, anytime.",
+        "card4Title": "The Quiq promise",
+        "card4Text": "Ab Guess mat karo, Test karo\n\nNo Appointment. No Queue.\n\nAb ghar baithe — instant results.",
         "perTest": "per test"
     },
     "testWorking": {

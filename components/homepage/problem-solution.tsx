@@ -8,19 +8,20 @@ import { useLanguage } from '@/lib/i18n/context'
 const cardDefs = [
 
     {
-        icon: MapPin,
-        labelKey: 'problemSolution.accessibility',
-        problemKey: 'problemSolution.accessProblem',
-        solutionIcon: Home,
-        solutionKey: 'problemSolution.accessSolution',
-    },
-    {
         icon: IndianRupee,
         labelKey: 'problemSolution.affordability',
         problemKey: 'problemSolution.affordProblem',
         solutionIcon: Coins,
         solutionKey: 'problemSolution.affordSolution',
     },
+    {
+        icon: MapPin,
+        labelKey: 'problemSolution.accessibility',
+        problemKey: 'problemSolution.accessProblem',
+        solutionIcon: Home,
+        solutionKey: 'problemSolution.accessSolution',
+    },
+
     {
         icon: Clock,
         labelKey: 'problemSolution.speed',

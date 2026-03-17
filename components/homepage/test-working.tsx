@@ -6,7 +6,7 @@ import { Droplets, ArrowRight, Target, Palette } from 'lucide-react'
 import { useLanguage } from '@/lib/i18n/context'
 
 // Steps 1-3 frames
-const FRAMES_STEPS_1_3 = 258
+const FRAMES_STEPS_1_3 = 93
 const FRAME_PATH_1_3 = '/test-working/ezgif-frame-'
 
 // Step 4 frames
@@ -60,8 +60,8 @@ const stepDefs = [
         descKey: 'testWorking.step4Desc',
         icon: Palette,
         startFrame: 1,
-        endFrame: 241,
-        weight: 2,
+        endFrame: 202,
+        weight: 1.5,
         sequence: 'step4' as const,
     },
 ]
@@ -263,7 +263,7 @@ export function TestWorking() {
                     <div className="flex-1 flex items-center justify-center relative">
                         <canvas
                             ref={desktopCanvasRef}
-                            className="max-w-full max-h-[60vh] w-auto h-auto object-contain transition-opacity duration-500"
+                            className="max-w-full max-h-[75vh] w-auto h-auto object-contain transition-opacity duration-500"
                             style={{ opacity: loaded ? 1 : 0 }}
                         />
                     </div>
@@ -318,7 +318,7 @@ export function TestWorking() {
                     <div className="flex-1 flex items-center justify-center min-h-0 relative">
                         <canvas
                             ref={mobileCanvasRef}
-                            className="max-w-full max-h-[40vh] w-auto h-auto object-contain transition-opacity duration-500"
+                            className="max-w-full max-h-[50vh] w-auto h-auto object-contain transition-opacity duration-500"
                             style={{ opacity: loaded ? 1 : 0 }}
                         />
                     </div>

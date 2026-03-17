@@ -126,7 +126,7 @@ export function TestShowcase() {
                 <div className="relative z-10 w-full flex justify-center items-center px-4">
                     <canvas
                         ref={canvasRef}
-                        className="w-auto max-w-full max-h-[60vh] md:max-h-[75vh] object-contain"
+                        className="w-auto max-w-full max-h-[75vh] md:max-h-[85vh] object-contain"
                         style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s' }}
                     />
                 </div>

@@ -9,6 +9,7 @@ import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight, Package, Truck, S
 import { getProduct, getRelatedProducts } from '@/lib/products'
 import { useCart } from '@/lib/cart'
 import { useState, useEffect, use } from 'react'
+import { TestWorking } from '@/components/homepage/test-working'
 
 function ImageCarousel({ slug, fallback, media }: { slug: string; fallback: string; media?: string[] }) {
   const [items, setItems] = useState<string[]>(media && media.length > 0 ? media : [fallback])
@@ -248,6 +249,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               {activeTab === 'howToRead' && <ul className="space-y-3">{product.howToReadResults.map((x, i) => <li key={i} className="flex items-start gap-3 text-sm text-white/50"><span className="text-white/20 mt-0.5">→</span>{x}</li>)}</ul>}
             </div>
           </motion.div>
+
+          {/* Test Working Section */}
+          <TestWorking />
 
           {/* Video */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-20">

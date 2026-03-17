@@ -6,12 +6,10 @@ import Image from 'next/image'
 import { useLanguage } from '@/lib/i18n/context'
 
 const cardDefs = [
-    { image: '/story-cards/1-worried.png', titleKey: 'storyCards.card1Title', textKey: 'storyCards.card1Text' },
-    { image: '/story-cards/2-home.png', titleKey: 'storyCards.card2Title', textKey: 'storyCards.card2Text' },
-    { image: '/story-cards/3-quiq.png', titleKey: 'storyCards.card3Title', textKey: 'storyCards.card3Text' },
-    { image: '/story-cards/4-tests.png', titleKey: 'storyCards.card4Title', textKey: 'storyCards.card4Text' },
-    { image: '/story-cards/5-expensive.png', titleKey: 'storyCards.card5Title', textKey: 'storyCards.card5Text' },
-    { image: '/story-cards/6-affordable.png', titleKey: 'storyCards.card6Title', textKey: 'storyCards.card6Text', isHighlight: true },
+    { image: '/story-1-new.png', titleKey: 'storyCards.card1Title', textKey: 'storyCards.card1Text' },
+    { image: '/story-2-new.png', titleKey: 'storyCards.card2Title', textKey: 'storyCards.card2Text' },
+    { image: '/story-3-new.png', titleKey: 'storyCards.card3Title', textKey: 'storyCards.card3Text' },
+    { image: '/story-4.png', titleKey: 'storyCards.card4Title', textKey: 'storyCards.card4Text', isHighlight: true },
 ]
 
 export function StoryCards() {
@@ -28,40 +26,43 @@ export function StoryCards() {
         isHighlight: d.isHighlight,
     }))
 
-    const REGULAR_CARDS = cards.slice(0, 5)
-    const LAST_CARD = cards[5]
-
     useEffect(() => {
         const handleScroll = () => {
+            if (window.innerWidth < 768) return // Only for desktop
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
             rafRef.current = requestAnimationFrame(() => {
                 const container = containerRef.current
                 if (!container) return
                 const rect = container.getBoundingClientRect()
                 const scrollHeight = container.offsetHeight - window.innerHeight
-                const scrolled = -rect.top
-                const prog = Math.max(0, Math.min(1, scrolled / scrollHeight))
+                const scrolled = Math.max(0, -rect.top)
+                const prog = scrollHeight > 0 ? Math.min(1, scrolled / scrollHeight) : 0
 
-                const totalSlots = cards.length
+                const totalSlots = Math.max(1, cards.length - 1)
                 const rawIndex = prog * totalSlots
-                const idx = Math.min(totalSlots - 1, Math.floor(rawIndex))
-                const sub = rawIndex - idx
+                let idx = Math.floor(rawIndex)
+                let sub = rawIndex - idx
+
+                if (idx >= totalSlots) {
+                    idx = totalSlots
+                    sub = 0
+                }
+
                 setActiveIndex(idx)
                 setSubProgress(sub)
             })
         }
 
         window.addEventListener('scroll', handleScroll, { passive: true })
+        window.addEventListener('resize', handleScroll, { passive: true })
         handleScroll()
         return () => {
             window.removeEventListener('scroll', handleScroll)
+            window.removeEventListener('resize', handleScroll)
             if (rafRef.current) cancelAnimationFrame(rafRef.current)
         }
-    }, [])
+    }, [cards.length])
 
-    const isLastCard = activeIndex >= REGULAR_CARDS.length
-
-    // Reel helper: current card slides up, next is revealed below (clipped by overflow-hidden)
     function getReelStyle(i: number) {
         let yOffset = 0
         let opacity = 0
@@ -83,190 +84,104 @@ export function StoryCards() {
         return {
             transform: `translateY(${yOffset}%)`,
             opacity,
-            zIndex: REGULAR_CARDS.length - i,
+            zIndex: cards.length - i,
         }
     }
 
     return (
         <section
-            ref={containerRef}
-            className="relative bg-black"
-            style={{ height: `${(cards.length + 1) * 100}vh` }}
+            className="relative bg-black h-fit"
         >
-            <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+            {/* Desktop Layout (Sticky Reel) */}
+            <div ref={containerRef} className="hidden md:block h-[400vh] relative">
+                <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+                    {/* Dark gradient mapping down for text background behind cards */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/0 to-transparent z-0 opacity-50 pointer-events-none" />
 
-                {/* ===== DESKTOP LAYOUT ===== */}
-                <div className="hidden md:flex items-center justify-center w-full h-full">
 
-                    {/* Two-panel layout for cards 0-4 */}
                     <div
-                        className="max-w-6xl w-full flex items-stretch gap-8 lg:gap-12 px-8 lg:px-16 transition-all duration-700"
-                        style={{
-                            opacity: isLastCard ? 0 : 1,
-                            transform: isLastCard ? 'scale(0.95) translateY(30px)' : 'scale(1) translateY(0)',
-                            pointerEvents: isLastCard ? 'none' : 'auto',
-                            height: '500px',
-                        }}
+                        className="max-w-4xl w-full mx-auto relative rounded-3xl overflow-hidden transition-all duration-700 shadow-2xl border border-white/10 z-10"
+                        style={{ height: '600px' }}
                     >
-                        {/* LEFT — Image reel */}
-                        <div className="flex-1 relative rounded-3xl overflow-hidden">
-                            {REGULAR_CARDS.map((card, i) => (
-                                <div
-                                    key={i}
-                                    className="absolute inset-0"
-                                    style={getReelStyle(i)}
-                                >
-                                    <Image
-                                        src={card.image}
-                                        alt={card.title || 'Quiq'}
-                                        fill
-                                        className="object-cover"
-                                        sizes="550px"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                                </div>
-                            ))}
-                        </div>
+                        {cards.map((card, i) => (
+                            <div key={i} className="absolute inset-0 bg-[#111]" style={getReelStyle(i)}>
+                                {/* Image */}
+                                <Image src={card.image} alt={card.title || 'Quiq'} fill className="object-cover" sizes="1200px" />
+                                {/* Overlay gradient */}
+                                <div className={`absolute inset-0 bg-gradient-to-b ${i === 1 || i === 3 ? 'from-black/10 via-black/60 to-black' : 'from-black/0 via-black/20 to-black/95'}`} />
 
-                        {/* RIGHT — Text reel (same scroll animation as image) */}
-                        <div className="flex-1 relative overflow-hidden">
-                            {REGULAR_CARDS.map((card, i) => (
-                                <div
-                                    key={i}
-                                    className="absolute inset-0 flex items-center"
-                                    style={getReelStyle(i)}
-                                >
-                                    <div className="p-8 lg:p-10 rounded-3xl border border-white/[0.06] bg-black w-full h-full flex flex-col justify-center">
-                                        {/* Step indicator */}
-                                        <div className="flex items-center gap-3 mb-6">
-                                            <span className="text-xs text-white/20 font-mono">
-                                                {String(i + 1).padStart(2, '0')}
-                                            </span>
-                                            <div className="w-8 h-px bg-white/10" />
-                                        </div>
-
-                                        <h3 className="text-2xl lg:text-3xl font-bold text-white/90 mb-4 leading-tight">
-                                            {card.title}
-                                        </h3>
-
-                                        <p className="text-base text-white/40 leading-relaxed whitespace-pre-line">
-                                            {card.text}
-                                        </p>
+                                {/* Overlay Text */}
+                                <div className="absolute bottom-0 left-0 right-0 p-10 lg:p-14 flex flex-col justify-end">
+                                    <div className="flex items-center gap-3 mb-5">
+                                        <span className="text-sm text-white/50 font-mono tracking-wider">{String(i + 1).padStart(2, '0')}</span>
+                                        <div className="w-12 h-px bg-white/30" />
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                                    <h3 className="text-4xl font-bold text-white mb-5 leading-tight">{card.title}</h3>
+                                    <p className="text-xl text-white/80 leading-relaxed whitespace-pre-line drop-shadow-md max-w-3xl font-medium">{card.text}</p>
 
-                    {/* Full-width card for the last one */}
-                    <div
-                        className="absolute inset-x-8 lg:inset-x-16 top-1/2 max-w-5xl mx-auto transition-all duration-700"
-                        style={{
-                            opacity: isLastCard ? 1 : 0,
-                            transform: isLastCard ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0.9) translateY(40px)',
-                            pointerEvents: isLastCard ? 'auto' : 'none',
-                        }}
-                    >
-                        <div className="h-[420px] rounded-3xl border border-white/[0.15] bg-white/[0.04] overflow-hidden flex flex-row">
-                            <div className="relative w-1/2 flex-shrink-0">
-                                <Image
-                                    src={LAST_CARD.image}
-                                    alt={LAST_CARD.title}
-                                    fill
-                                    className="object-cover"
-                                    sizes="600px"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/60" />
-                            </div>
-                            <div className="flex-1 p-10 lg:p-14 flex flex-col justify-center">
-                                <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-                                    {LAST_CARD.title}
-                                </h3>
-                                <p className="text-base text-white/50 leading-relaxed mb-6">
-                                    {LAST_CARD.text}
-                                </p>
-                                <div>
-                                    <span className="text-5xl font-bold text-white">₹99</span>
-                                    <span className="text-lg text-white/40 ml-3">{t('storyCards.perTest')}</span>
+                                    {card.isHighlight && (
+                                        <div className="mt-8 pt-6 border-t border-white/20">
+                                            <span className="text-4xl font-bold text-white">₹99</span>
+                                            <span className="text-lg text-white/60 ml-3">{t('storyCards.perTest')}</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* ===== MOBILE LAYOUT ===== */}
-                <div className="flex md:hidden flex-col items-center justify-center w-full h-full px-5 py-16">
-                    <div className="relative w-full max-w-sm h-[520px]">
-                        {cards.map((card, i) => {
-                            const isCurrent = i === activeIndex
-                            const isPrev = i < activeIndex
-
-                            return (
-                                <div
-                                    key={i}
-                                    className="absolute inset-0 transition-all duration-700 ease-out"
-                                    style={{
-                                        transform: isCurrent
-                                            ? 'translateY(0) scale(1)'
-                                            : isPrev
-                                                ? 'translateY(-30px) scale(0.95)'
-                                                : 'translateY(60px) scale(0.92)',
-                                        opacity: isCurrent ? 1 : 0,
-                                        zIndex: isCurrent ? 10 : 1,
-                                    }}
-                                >
-                                    <div className={`h-full rounded-3xl border overflow-hidden flex flex-col ${card.isHighlight ? 'border-white/20 bg-white/[0.06]' : 'border-white/[0.08] bg-white/[0.03]'}`}>
-                                        <div className="relative h-60 flex-shrink-0">
-                                            <Image src={card.image} alt={card.title || 'Quiq'} fill className="object-cover" sizes="350px" />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                                        </div>
-                                        <div className="flex-1 p-5 flex flex-col justify-center">
-                                            <h3 className={`text-lg font-bold mb-2 ${card.isHighlight ? 'text-white' : 'text-white/90'}`}>{card.title}</h3>
-                                            <p className={`text-[13px] leading-relaxed ${card.isHighlight ? 'text-white/70' : 'text-white/45'}`}>{card.text}</p>
-                                            {card.isHighlight && (
-                                                <div className="mt-3">
-                                                    <span className="text-3xl font-bold text-white">₹99</span>
-                                                    <span className="text-xs text-white/40 ml-2">{t('storyCards.perTest')}</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-
-                    <div className="mt-8 flex items-center justify-center gap-2">
-                        {cards.map((_, i) => (
-                            <div
-                                key={i}
-                                className="h-1 rounded-full transition-all duration-300"
-                                style={{
-                                    width: i === activeIndex ? 20 : 6,
-                                    background: i === activeIndex ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.1)',
-                                }}
-                            />
                         ))}
                     </div>
                 </div>
+            </div>
 
-                {/* Progress dots (desktop) */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex items-center gap-2 z-20">
-                    {cards.map((_, i) => (
-                        <div
-                            key={i}
-                            className="h-1 rounded-full transition-all duration-300"
-                            style={{
-                                width: i === activeIndex ? 20 : 6,
-                                background: i === activeIndex ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.1)',
-                            }}
-                        />
+            {/* Mobile Horizontal Snap Layout (No vertical hijack) */}
+            <div className="md:hidden w-full py-20 px-4">
+                <style dangerouslySetInnerHTML={{
+                    __html: `
+                    .hide-scroll::-webkit-scrollbar { display: none; }
+                    .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+                `}} />
+
+                <h2 className="text-3xl font-bold text-center text-white mb-10 pb-2">Our Story</h2>
+
+                <div className="flex overflow-x-auto snap-x snap-mandatory hide-scroll gap-5 px-4 -mx-4 pb-4">
+                    {cards.map((card, i) => (
+                        <div key={i} className="snap-center shrink-0 w-[85vw] h-[550px] relative rounded-3xl overflow-hidden border border-white/10 bg-[#111]">
+                            <Image
+                                src={card.image}
+                                alt={card.title}
+                                fill
+                                className="object-cover object-center"
+                                sizes="85vw"
+                            />
+                            {/* Dark gradient mapping down for text */}
+                            <div className={`absolute inset-0 bg-gradient-to-b ${i === 1 || i === 3 ? 'from-black/10 via-black/60 to-black' : 'from-black/0 via-black/20 to-black/95'}`} />
+
+                            <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col justify-end min-h-[50%] z-10">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <span className="text-xs text-white/60 font-mono tracking-wider">{String(i + 1).padStart(2, '0')}</span>
+                                    <div className="w-8 h-px bg-white/40" />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-3 leading-tight">{card.title}</h3>
+                                <p className="text-[15px] text-white/90 leading-relaxed whitespace-pre-line font-medium drop-shadow-md">
+                                    {card.text}
+                                </p>
+
+                                {card.isHighlight && (
+                                    <div className="mt-5 pt-4 border-t border-white/20">
+                                        <span className="text-3xl font-bold text-white">₹99</span>
+                                        <span className="text-sm text-white/70 ml-2">{t('storyCards.perTest')}</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     ))}
                 </div>
 
-                {/* Gradient fades */}
-                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black to-transparent pointer-events-none" />
-                <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black to-transparent pointer-events-none" />
+                <div className="flex items-center justify-center gap-2 mt-6 text-white/40 text-[13px] uppercase tracking-wider font-semibold">
+                    <span>Swipe</span>
+                    <motion.div animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}>
+                        →
+                    </motion.div>
+                </div>
             </div>
         </section>
     )

@@ -1,146 +1,201 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { fadeInUp, staggerContainer, slideInFromLeft, slideInFromRight } from '@/lib/animations'
-import Image from 'next/image'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
-const products = [
-  {
-    id: 1,
-    name: 'Vitamin-D Self Test',
-    description: 'Check your Vitamin D levels instantly. Low D levels indicate deficiency, which our tests can help diagnose.',
-    price: '$49.99',
-    features: ['Results in Minutes', 'Finger-Prick Collection', 'Clinically Tested'],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Product%20Image.png-ZHJRxoLD0ng09cw9Mqcyer5MZvZzSK.jpeg',
-  },
-  {
-    id: 2,
-    name: 'Complete Blood Panel',
-    description: 'Comprehensive blood work including cholesterol, glucose, and liver function tests.',
-    price: '$99.99',
-    features: ['10+ Biomarkers', 'Lab Results in 24h', 'Professional Analysis'],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Product%20Image.png-ZHJRxoLD0ng09cw9Mqcyer5MZvZzSK.jpeg',
-  },
-  {
-    id: 3,
-    name: 'Immunity Strength Test',
-    description: 'Measure your immune system strength and get personalized recommendations to boost immunity.',
-    price: '$79.99',
-    features: ['Immune Health Score', 'Personalized Recommendations', 'Trend Tracking'],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Product%20Image.png-ZHJRxoLD0ng09cw9Mqcyer5MZvZzSK.jpeg',
-  },
-]
+const TOTAL_FRAMES = 136
+const FRAME_PATH = '/showcase/ezgif-frame-'
+
+function getFrameSrc(index: number): string {
+    const padded = String(index).padStart(3, '0')
+    return `${FRAME_PATH}${padded}.webp`
+}
 
 export function ProductShowcase() {
-  return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-background">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">
-            Our Top Tests
-          </h2>
-          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
-            Choose from our range of premium diagnostic tests, all designed for simplicity and accuracy.
-          </p>
-        </motion.div>
+    const containerRef = useRef<HTMLDivElement>(null)
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+    const imagesRef = useRef<HTMLImageElement[]>([])
+    const [loaded, setLoaded] = useState(false)
+    const currentFrameRef = useRef(0)
+    const rafRef = useRef<number>(0)
+    const [progress, setProgress] = useState(0)
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+    // Preload all images
+    useEffect(() => {
+        let loadedCount = 0
+        const images: HTMLImageElement[] = []
+
+        for (let i = 1; i <= TOTAL_FRAMES; i++) {
+            const img = new Image()
+            img.src = getFrameSrc(i)
+            img.onload = () => {
+                loadedCount++
+                if (loadedCount === TOTAL_FRAMES) {
+                    imagesRef.current = images
+                    setLoaded(true)
+                }
+            }
+            img.onerror = () => {
+                loadedCount++
+                if (loadedCount === TOTAL_FRAMES) {
+                    imagesRef.current = images
+                    setLoaded(true)
+                }
+            }
+            images.push(img)
+        }
+    }, [])
+
+    const drawFrame = useCallback((frameIndex: number) => {
+        const canvas = canvasRef.current
+        const ctx = canvas?.getContext('2d')
+        const img = imagesRef.current[frameIndex]
+        if (!canvas || !ctx || !img || !img.complete) return
+
+        canvas.width = img.naturalWidth
+        canvas.height = img.naturalHeight
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(img, 0, 0)
+    }, [])
+
+    // Draw first frame when loaded
+    useEffect(() => {
+        if (loaded) {
+            drawFrame(0)
+        }
+    }, [loaded, drawFrame])
+
+    // Scroll-driven animation
+    useEffect(() => {
+        if (!loaded) return
+
+        const handleScroll = () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+
+            rafRef.current = requestAnimationFrame(() => {
+                const container = containerRef.current
+                if (!container) return
+
+                const rect = container.getBoundingClientRect()
+                const scrollHeight = container.offsetHeight - window.innerHeight
+                const scrolled = -rect.top
+                const prog = Math.max(0, Math.min(1, scrolled / scrollHeight))
+                setProgress(prog)
+
+                const frameIndex = Math.min(
+                    TOTAL_FRAMES - 1,
+                    Math.floor(prog * (TOTAL_FRAMES - 1))
+                )
+
+                if (frameIndex !== currentFrameRef.current) {
+                    currentFrameRef.current = frameIndex
+                    drawFrame(frameIndex)
+                }
+            })
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        handleScroll()
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+        }
+    }, [loaded, drawFrame])
+
+    const text1Visible = progress < 0.35
+    const text2Visible = progress > 0.35 && progress < 0.7
+    const text3Visible = progress > 0.7
+
+    return (
+        <section
+            ref={containerRef}
+            className="relative bg-black"
+            style={{ height: '400vh' }}
         >
-          {products.map((product, index) => (
-            <motion.div
-              key={product.id}
-              variants={fadeInUp}
-              className="group rounded-2xl overflow-hidden border border-border bg-card hover:border-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 flex flex-col h-full"
-            >
-              {/* Image Container */}
-              <div className="relative overflow-hidden bg-muted h-64">
-                <motion.div
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.4 }}
-                  className="w-full h-full"
+            <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+                {/* Ambient glow */}
+                <div
+                    className="absolute w-[500px] h-[500px] rounded-full transition-opacity duration-500"
+                    style={{
+                        background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
+                        opacity: progress < 0.85 ? 0.6 : 0,
+                    }}
+                />
+
+                {/* Canvas */}
+                <div className="relative z-10 w-full flex justify-center items-center px-4">
+                    <canvas
+                        ref={canvasRef}
+                        className="w-auto max-w-full max-h-[60vh] md:max-h-[75vh] object-contain"
+                        style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.5s' }}
+                    />
+                </div>
+
+                {/* Text 1 */}
+                <div
+                    className="absolute bottom-[15%] sm:bottom-[12%] z-20 transition-all duration-700"
+                    style={{
+                        opacity: text1Visible ? 1 : 0,
+                        transform: text1Visible ? 'translateY(0)' : 'translateY(20px)',
+                        pointerEvents: text1Visible ? 'auto' : 'none'
+                    }}
                 >
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-
-              {/* Content */}
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-xl font-semibold text-foreground mb-2">
-                  {product.name}
-                </h3>
-                <p className="text-foreground/60 text-sm mb-6 flex-1">
-                  {product.description}
-                </p>
-
-                {/* Features */}
-                <div className="mb-6 flex flex-wrap gap-2">
-                  {product.features.map((feature, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-block px-3 py-1 text-xs rounded-full bg-accent/10 text-accent font-medium"
-                    >
-                      {feature}
-                    </span>
-                  ))}
+                    <p className="text-xs sm:text-sm text-white/40 tracking-[0.3em] uppercase text-center">
+                        Product Showcase
+                    </p>
+                    <p className="text-white/20 text-xs text-center mt-1">
+                        Precision engineered for simplicity
+                    </p>
                 </div>
 
-                {/* Price and CTA */}
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-accent">
-                    {product.price}
-                  </span>
-                  <Button
-                    asChild
-                    size="sm"
-                    className="bg-accent text-accent-foreground hover:bg-accent/90"
-                  >
-                    <Link href={`/products/${product.id}`}>View Details</Link>
-                  </Button>
+                {/* Text 2 */}
+                <div
+                    className="absolute bottom-[15%] sm:bottom-[12%] z-20 transition-all duration-700"
+                    style={{
+                        opacity: text2Visible ? 1 : 0,
+                        transform: text2Visible ? 'translateY(0)' : 'translateY(20px)',
+                        pointerEvents: text2Visible ? 'auto' : 'none'
+                    }}
+                >
+                    <p className="text-xs sm:text-sm text-white/40 tracking-[0.3em] uppercase text-center">
+                        Designed for Everyone
+                    </p>
+                    <p className="text-white/20 text-xs text-center mt-1">
+                        Simple enough for anyone to use at home
+                    </p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
 
-        {/* View All Products CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="rounded-full border-accent/50 text-accent hover:bg-accent/10"
-          >
-            <Link href="/products">Browse All Tests</Link>
-          </Button>
-        </motion.div>
-      </div>
-    </section>
-  )
+                {/* Text 3 */}
+                <div
+                    className="absolute bottom-[15%] sm:bottom-[12%] z-20 transition-all duration-700"
+                    style={{
+                        opacity: text3Visible ? 1 : 0,
+                        transform: text3Visible ? 'translateY(0)' : 'translateY(20px)',
+                        pointerEvents: text3Visible ? 'auto' : 'none'
+                    }}
+                >
+                    <p className="text-xs sm:text-sm text-white/40 tracking-[0.3em] uppercase text-center">
+                        Results in Minutes
+                    </p>
+                    <p className="text-white/20 text-xs text-center mt-1">
+                        Lab-grade accuracy. Zero waiting.
+                    </p>
+                </div>
+
+                {/* Progress bar */}
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+                    <div className="w-24 h-[1px] bg-white/[0.06] rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-white/20 rounded-full transition-all duration-100"
+                            style={{ width: `${progress * 100}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Gradient fades */}
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black to-transparent pointer-events-none" />
+            </div>
+        </section>
+    )
 }
