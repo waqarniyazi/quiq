@@ -22,7 +22,7 @@ export function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setDiseaseIndex((prev) => (prev >= diseases.length - 1 ? 0 : prev + 1));
-    }, 2800);
+    }, 1800);
 
     return () => clearInterval(interval);
   }, [diseases.length]);
@@ -31,6 +31,8 @@ export function Hero() {
     if (i === 0) return 'bg-gradient-to-r from-orange-500 via-rose-600 to-purple-700 bg-clip-text text-transparent drop-shadow-md';
     if (i === 1) return 'bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-700 bg-clip-text text-transparent drop-shadow-md';
     if (i === 2) return 'bg-gradient-to-r from-amber-500 via-orange-600 to-red-600 bg-clip-text text-transparent drop-shadow-md';
+    if (i === 3) return 'bg-gradient-to-r from-lime-500 via-emerald-600 to-teal-700 bg-clip-text text-transparent drop-shadow-md';
+    if (i === 4) return 'bg-gradient-to-r from-fuchsia-500 via-pink-600 to-rose-700 bg-clip-text text-transparent drop-shadow-md';
     return 'bg-gradient-to-r from-orange-500 via-rose-600 to-purple-700 bg-clip-text text-transparent drop-shadow-md';
   };
 
@@ -92,7 +94,7 @@ export function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight leading-[1.2] text-white/95 drop-shadow-lg mb-8"
           >
             <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 sm:gap-x-3 mb-2 sm:mb-4">

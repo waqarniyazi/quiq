@@ -21,6 +21,8 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <ProblemSolution />
+
         <StoryCards />
         <ProductShowcase />
         <BrandMarquee />
