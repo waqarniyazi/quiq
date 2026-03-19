@@ -4,6 +4,8 @@ export type Post = {
   summary: string
   date: string
   modifiedTime?: string
+  category?: string
+  image?: string
 }
 
 // Seed from bundled content; replace with CMS later
@@ -110,7 +112,61 @@ export const allPosts: Post[] = [
     slug: 'urban-indians-vitamin-b12-deficiency',
     title: 'Why Urban Indians Are the Most Vitamin B12 Deficient — And Don\'t Realise It',
     summary: 'Urban, educated Indians face a hidden health crisis: widespread Vitamin B12 deficiency. Discover the surprising causes, silent symptoms, and how to test privately at home.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
+    date: '2026-03-25T00:00:00Z',
+    modifiedTime: '2026-03-25T00:00:00Z',
   },
+  {
+    slug: 'hba1c-diabetes-test-at-home-india',
+    title: 'HbA1c Test at Home: Monitor Your Blood Sugar Without Fasting or Lab Visits',
+    summary: 'Take control of your health with a CE & IVD certified HbA1c test at home. Get results in 10 minutes for just ₹99. No fasting or lab visits required.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/hba1c/1.png'
+  },
+  {
+    slug: 'tsh-thyroid-test-at-home-india',
+    title: 'TSH Thyroid Test at Home: Your First Step to Understanding Thyroid Health',
+    summary: 'Check your thyroid health privately at home in 10 minutes. Understand TSH levels, a key marker for common disorders affecting 1 in 10 Indians.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/tsh/1.webp'
+  },
+  {
+    slug: 'vitamin-d-self-test-at-home-india',
+    title: 'Vitamin D Self Test: Why Every Indian Should Check Their Levels at Home',
+    summary: 'Discover why 70-80% of Indians are Vitamin D deficient and how you can check your levels privately at home in just 10 minutes for ₹99.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/vitamin-d/1.png'
+  },
+  {
+    slug: 'vitamin-b12-test-at-home-vegetarians-india',
+    title: 'Vitamin B12 Test at Home: Why India\'s Vegetarian Population Needs This',
+    summary: 'Over 80% of Indian vegetarians are B12 deficient. Learn why it matters, spot the symptoms, and test your levels privately at home in just 10 minutes.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/vitamin-b12/1.webp'
+  },
+  {
+    slug: 'ferritin-iron-deficiency-test-at-home',
+    title: 'Iron Deficiency (Ferritin) Test: Catch It Before Anaemia Develops',
+    summary: 'Over 50% of Indian women are iron deficient. Discover how a simple 10-minute ferritin test at home can detect a deficiency before it becomes full-blown anaemia.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/iron-deficiency/1.webp'
+  },
+  {
+    slug: 'dust-allergy-test-at-home-india',
+    title: 'Dust Allergy Test: Find Out If Dust Mites Are Behind Your Sneezing',
+    summary: 'Struggling with constant sneezing and congestion? It might be a dust mite allergy. Learn about this common Indian trigger and how to test for it privately at home in 10 minutes.',
+    date: '2026-03-17T00:00:00Z',
+    modifiedTime: '2026-03-17T00:00:00Z',
+    category: 'Product',
+    image: '/product/dust-allergy/1.webp'
+  }
 ]

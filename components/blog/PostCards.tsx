@@ -17,14 +17,43 @@ type PostCardProps = Post
 
 const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll = false }: PostCardsProps) => {
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const totalPages = Math.ceil(posts.length / postsPerPage)
+  const categories = ['All', 'Product']
+
+  const filteredPosts = selectedCategory === 'All' 
+    ? posts 
+    : posts.filter(p => p.category === selectedCategory)
+
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage)
   const startIndex = (currentPage - 1) * postsPerPage
   const endIndex = startIndex + postsPerPage
-  const currentPosts = showPagination ? posts.slice(startIndex, endIndex) : posts
+  const currentPosts = showPagination ? filteredPosts.slice(startIndex, endIndex) : filteredPosts
 
   return (
     <div className="space-y-8">
+      {/* Category Tabs */}
+      {!showViewAll && (
+        <div className="flex justify-center gap-4 mb-8">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => {
+                setSelectedCategory(category)
+                setCurrentPage(1)
+              }}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedCategory === category
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              {category} {category === 'Product' ? 's' : ''}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto'>
         {currentPosts.map((post) => (
           <PostCard key={post.slug} {...post} />
@@ -82,7 +111,7 @@ const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll
 }
 
 const PostCard = (props: PostCardProps) => {
-  const { slug, title, summary, date } = props
+  const { slug, title, summary, date, image } = props
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -93,10 +122,10 @@ const PostCard = (props: PostCardProps) => {
     <Link href={`/blog/${slug}`} className='group rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden'>
       <div className="p-2 overflow-hidden">
         <BlurImage
-          src={`/images/blog/${slug}/cover.png`}
-          className='rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105'
-          width={1200}
-          height={630}
+          src={image || `/images/blog/${slug}/cover.png`}
+          className='w-full aspect-[2/1] object-cover rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105'
+          width={800}
+          height={400}
           alt={title}
         />
       </div>

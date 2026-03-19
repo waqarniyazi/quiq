@@ -14,4 +14,10 @@ export const postComponents: Record<string, () => Promise<{ default: React.Compo
   'self-test-kits-beyond-covid-pregnancy': () => import('@/content/blog/en/self-test-kits-beyond-covid-pregnancy.mdx'),
   'thyroid-epidemic-india-tsh-testing': () => import('@/content/blog/en/thyroid-epidemic-india-tsh-testing.mdx'),
   'urban-indians-vitamin-b12-deficiency': () => import('@/content/blog/en/urban-indians-vitamin-b12-deficiency.mdx'),
+  'hba1c-diabetes-test-at-home-india': () => import('@/content/blog/en/hba1c-diabetes-test-at-home-india.mdx'),
+  'tsh-thyroid-test-at-home-india': () => import('@/content/blog/en/tsh-thyroid-test-at-home-india.mdx'),
+  'vitamin-d-self-test-at-home-india': () => import('@/content/blog/en/vitamin-d-self-test-at-home-india.mdx'),
+  'vitamin-b12-test-at-home-vegetarians-india': () => import('@/content/blog/en/vitamin-b12-test-at-home-vegetarians-india.mdx'),
+  'ferritin-iron-deficiency-test-at-home': () => import('@/content/blog/en/ferritin-iron-deficiency-test-at-home.mdx'),
+  'dust-allergy-test-at-home-india': () => import('@/content/blog/en/dust-allergy-test-at-home-india.mdx'),
 }
