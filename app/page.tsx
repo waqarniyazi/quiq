@@ -22,11 +22,11 @@ export default function Home() {
       <main>
         <Hero />
 
-        <StoryCards />
+
         <ProductShowcase />
         <BrandMarquee />
         <TestShowcase />
-        <ProductCarousel />
+
         <TestWorking />
         <Markers />
         <Certifications />

@@ -9,13 +9,13 @@
         "cart": "Cart"
     },
     "hero": {
-        "title": "Imagine Testing for Cancer \n At Home. \n In 5 Mins.",
-        "titleLine1Prefix": "Imagine Testing for ",
-        "titleLine1Suffix": "",
-        "diseasesStr": "Cancer, Diabetes, Anemia, Dengue, Malaria",
-        "subtitle": "And that's just one of 20+ tests you can now do yourself.",
-        "cta1": "Test Yourself",
-        "cta2": "QUIQ™ AI"
+        "slide1Lines": "Imagine|Testing for Cancer|With a Single Drop of Blood|At Home|In 5 Minutes",
+        "slide2Title": "Presenting QUIQ™",
+        "slide2Line1": "Self-testing kits",
+        "slide2Line2": "Range of conditions. One drop of blood.",
+        "slide2Line3": "Built on world-class medical research",
+        "slide2Line4": "Trusted by health authorities in India and Abraod",
+        "cta1": "Test Yourself"
     },
     "problemSolution": {
         "problemSubtitle": "The Problem",

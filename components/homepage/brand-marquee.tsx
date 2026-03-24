@@ -23,7 +23,7 @@ export function BrandMarquee() {
                     Available On
                 </p>
                 <h2 className="text-2xl sm:text-3xl font-bold text-white/90">
-                    Get Quiq on your favourite platform
+                    Get QUIQ on your favourite platform
                 </h2>
             </div>
 
