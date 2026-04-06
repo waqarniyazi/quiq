@@ -112,7 +112,7 @@ const dustAllergy: Product = {
     id: 'dust-allergy', name: 'Dust Allergy Test', slug: 'dust-allergy',
     shortDescription: 'Detect dust mite allergy from home.',
     price: 79, originalPrice: 179, currency: '₹', category: 'Wellness & Lifestyle',
-    image: '/product/dust-allergy/1.png', imageFolder: '/product/dust-allergy',
+    image: '/first image.webp', imageFolder: '/product/dust-allergy',
     rating: 4.6, reviewCount: 134, inStock: true, availableNow: true,
     features: ['Results in 10 min', 'IgE detection', 'CE & IVD certified', 'Dust mite specific'],
     description: 'Dust mite allergy is one of the most common allergies in India due to humid climate. It causes sneezing, runny nose, and can worsen asthma. This test detects specific IgE antibodies.',
@@ -269,7 +269,7 @@ const dengue: Product = {
     id: 'dengue', name: 'Dengue NS1 + IgG/IgM Test', slug: 'dengue',
     shortDescription: 'Rapid dengue detection at home.',
     price: 79, originalPrice: 199, currency: '₹', category: 'Infectious Diseases',
-    image: '/product/dengue/1.png', imageFolder: '/product/dengue',
+    image: '/first image.webp', imageFolder: '/product/dengue',
     rating: 4.6, reviewCount: 287, inStock: true, availableNow: false, launchDate: '1st October 2026',
     features: ['Results in 15 min', 'NS1 + Antibody', 'CE & IVD certified', 'Early detection'],
     description: 'Dengue is common in India during monsoon. Our combo test detects NS1 antigen (active infection in first 5 days) and IgG/IgM antibodies (current or past infection) from a single sample.',
@@ -286,7 +286,7 @@ const hiv: Product = {
     id: 'hiv', name: 'HIV 1/2 Self Test', slug: 'hiv',
     shortDescription: 'Confidential HIV screening from home.',
     price: 99, originalPrice: 299, currency: '₹', category: 'Infectious Diseases',
-    image: '/product/hiv/1.png', imageFolder: '/product/hiv',
+    image: '/first image.webp', imageFolder: '/product/hiv',
     rating: 4.9, reviewCount: 523, inStock: true, availableNow: false, launchDate: '1st October 2026',
     features: ['Results in 15 min', 'HIV-1 & HIV-2', 'CE & IVD certified', 'WHO prequalified'],
     description: 'Confidential HIV-1/2 antibody screening via finger-prick. Based on WHO-prequalified technology with >99.5% sensitivity. Privacy is paramount — test at home without anyone knowing.',
@@ -303,7 +303,7 @@ const malaria: Product = {
     id: 'malaria', name: 'Malaria Pf/Pv Test', slug: 'malaria',
     shortDescription: 'Rapid malaria screening for P. falciparum & P. vivax.',
     price: 79, originalPrice: 199, currency: '₹', category: 'Infectious Diseases',
-    image: '/product/malaria/1.png', imageFolder: '/product/malaria',
+    image: '/first image.webp', imageFolder: '/product/malaria',
     rating: 4.7, reviewCount: 198, inStock: true, availableNow: false, launchDate: '1st October 2026',
     features: ['Results in 15 min', 'Pf & Pv detection', 'CE & IVD certified', 'Rapid screening'],
     description: 'Malaria remains endemic in many parts of India. Our rapid test differentiates between P. falciparum (the more dangerous species) and P. vivax from a finger-prick blood sample.',
@@ -323,7 +323,7 @@ const procalcitonin: Product = {
     id: 'procalcitonin', name: 'Procalcitonin Test', slug: 'procalcitonin',
     shortDescription: 'Early marker for bacterial infections and sepsis.',
     price: 99, originalPrice: 349, currency: '₹', category: 'Critical & Emergency',
-    image: '/product/procalcitonin/1.png', imageFolder: '/product/procalcitonin',
+    image: '/first image.webp', imageFolder: '/product/procalcitonin',
     rating: 4.8, reviewCount: 87, inStock: true, availableNow: false, launchDate: '1st October 2026',
     features: ['Results in 15 min', 'PCT marker', 'CE & IVD certified', 'Sepsis screening'],
     description: 'Procalcitonin (PCT) is elevated in bacterial infections and sepsis. It helps differentiate bacterial from viral infections, guiding antibiotic use. Critical for early sepsis detection.',
@@ -339,7 +339,7 @@ const troponinI: Product = {
     id: 'troponin-i', name: 'Troponin I Test', slug: 'troponin-i',
     shortDescription: 'Rapid cardiac marker for heart attack screening.',
     price: 99, originalPrice: 399, currency: '₹', category: 'Critical & Emergency',
-    image: '/product/troponin-i/1.png', imageFolder: '/product/troponin-i',
+    image: '/first image.webp', imageFolder: '/product/troponin-i',
     rating: 4.9, reviewCount: 76, inStock: true, availableNow: false, launchDate: '1st October 2026',
     features: ['Results in 15 min', 'cTnI marker', 'CE & IVD certified', 'Cardiac screening'],
     description: 'Cardiac Troponin I is released when heart muscle is damaged. Elevated levels strongly suggest heart attack or cardiac injury. This rapid test can be life-saving in emergencies.',
@@ -355,7 +355,7 @@ const troponinT: Product = {
     id: 'troponin-t', name: 'Troponin T Test', slug: 'troponin-t',
     shortDescription: 'High-sensitivity cardiac troponin T screening.',
     price: 99, originalPrice: 399, currency: '₹', category: 'Critical & Emergency',
-    image: '/product/troponin-t/1.png', imageFolder: '/product/troponin-t',
+    image: '/first image.webp', imageFolder: '/product/troponin-t',
     rating: 4.8, reviewCount: 64, inStock: true, availableNow: true,
     features: ['Results in 15 min', 'cTnT marker', 'CE & IVD certified', 'Cardiac emergency'],
     description: 'Troponin T is another cardiac-specific marker released during heart muscle damage. Combined with clinical symptoms, it helps in rapid assessment of acute coronary events.',
@@ -391,13 +391,13 @@ const drugsOfAbuse: Product = {
 // EXPORTS
 // ——————————————————————————————————————————————
 
+// CDSCO Class D tests (hidden for now): hiv, drugsOfAbuse
 export const products: Product[] = [
     vitaminD, vitaminB12, ferritin, tsh, hba1c, cholesterol, triglycerides,
     lactose, hPylori, petAllergy, dustAllergy,
     psa, crp,
-    dengue, hiv, malaria,
+    dengue, malaria,
     procalcitonin, troponinI, troponinT,
-    drugsOfAbuse,
 ]
 
 export const categories = [
@@ -406,7 +406,6 @@ export const categories = [
     'Cancer Markers',
     'Infectious Diseases',
     'Critical & Emergency',
-    'Lifestyle & Screening',
 ]
 
 export function getProduct(id: string): Product | undefined {

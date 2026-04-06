@@ -225,44 +225,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Timeline */}
-        <section className="px-4 sm:px-6 lg:px-8 pb-20">
-          <div className="max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-bold gradient-text">Our Journey</h2>
-            </motion.div>
-
-            <div className="relative">
-              <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-white/[0.08] via-white/[0.04] to-transparent" />
-              <div className="space-y-8">
-                {timeline.map((event, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="flex items-start gap-6"
-                  >
-                    <div className="w-12 h-12 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center flex-shrink-0 z-10">
-                      <span className="text-xs font-mono text-white/50">{event.year}</span>
-                    </div>
-                    <div className="pt-2">
-                      <h3 className="text-base font-semibold text-white/70 mb-1">{event.title}</h3>
-                      <p className="text-sm text-white/40 leading-relaxed">{event.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Products CTA */}
         <section className="px-4 sm:px-6 lg:px-8 pb-16">

@@ -89,7 +89,7 @@ const categories: Category[] = [
             { id: 'fever-monsoon', label: 'High fever (monsoon season)', tests: ['dengue', 'malaria'] },
             { id: 'chills', label: 'Fever with chills', tests: ['malaria', 'procalcitonin'] },
             { id: 'body-aches', label: 'Body aches with fever', tests: ['dengue', 'malaria', 'crp'] },
-            { id: 'sti-concern', label: 'Want confidential STI screening', tests: ['hiv'] },
+
         ],
     },
     {
@@ -109,8 +109,8 @@ const productNames: Record<string, string> = {
     'triglycerides': 'Triglycerides Test', 'lactose-intolerance': 'Lactose Intolerance Test',
     'h-pylori': 'H. pylori Test', 'pet-allergy': 'Pet Allergy Test', 'dust-allergy': 'Dust Allergy Test',
     'psa': 'PSA Prostate Test', 'crp': 'CRP Inflammation Test', 'dengue': 'Dengue Test',
-    'hiv': 'HIV Self Test', 'malaria': 'Malaria Test', 'procalcitonin': 'Procalcitonin Test',
-    'troponin-i': 'Troponin I Test', 'troponin-t': 'Troponin T Test', 'drugs-of-abuse': 'Drug Screen Test',
+    'malaria': 'Malaria Test', 'procalcitonin': 'Procalcitonin Test',
+    'troponin-i': 'Troponin I Test', 'troponin-t': 'Troponin T Test',
     'ferritin': 'Ferritin Test',
 }
 

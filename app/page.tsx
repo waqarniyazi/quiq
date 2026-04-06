@@ -31,7 +31,6 @@ export default function Home() {
         <Markers />
         <Certifications />
         <Testimonials />
-        <PenTestCTA />
         <Newsletter />
       </main>
       <Footer />
