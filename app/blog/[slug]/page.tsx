@@ -26,8 +26,21 @@ export async function generateMetadata({ params }: Params) {
   const post = allPosts.find((p) => p.slug === slug)
   if (!post) return {}
   return {
-    title: `${post.title} • QUIQ Blog`,
+    title: `${post.title} – QUIQ Blog`,
     description: post.summary,
+    openGraph: {
+      title: `${post.title} – QUIQ Blog`,
+      description: post.summary,
+      url: `https://quiqhealth.in/blog/${slug}`,
+      type: 'article',
+    },
+    twitter: {
+      title: `${post.title} – QUIQ Blog`,
+      description: post.summary,
+    },
+    alternates: {
+      canonical: `https://quiqhealth.in/blog/${slug}`,
+    },
   }
 }
 

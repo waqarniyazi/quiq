@@ -5,11 +5,28 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { useCart } from '@/lib/cart'
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react'
+import { startCheckout } from '@/lib/shopify'
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Loader2 } from 'lucide-react'
 
 export default function CartPage() {
     const { items, removeFromCart, updateQuantity, totalItems, totalPrice, clearCart } = useCart()
+    const [checkingOut, setCheckingOut] = useState(false)
+    const [checkoutError, setCheckoutError] = useState<string | null>(null)
+
+    const handleCheckout = async () => {
+        setCheckoutError(null)
+        setCheckingOut(true)
+        try {
+            const url = await startCheckout(items)
+            // Redirect to Shopify's hosted checkout (handles payment, address, GST).
+            window.location.href = url
+        } catch (err) {
+            setCheckoutError(err instanceof Error ? err.message : 'Could not start checkout. Please try again.')
+            setCheckingOut(false)
+        }
+    }
 
     return (
         <div className="min-h-screen bg-black text-white">
@@ -113,11 +130,26 @@ export default function CartPage() {
                                 </div>
 
                                 <button
-                                    className="w-full mt-6 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2"
+                                    onClick={handleCheckout}
+                                    disabled={checkingOut}
+                                    className="w-full mt-6 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
-                                    Proceed to Checkout
-                                    <ArrowRight className="w-4 h-4" />
+                                    {checkingOut ? (
+                                        <>
+                                            Redirecting to secure checkout
+                                            <Loader2 className="w-4 h-4 animate-spin" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            Proceed to Checkout
+                                            <ArrowRight className="w-4 h-4" />
+                                        </>
+                                    )}
                                 </button>
+
+                                {checkoutError && (
+                                    <p className="mt-3 text-xs text-rose-400 text-center">{checkoutError}</p>
+                                )}
 
                                 <div className="flex items-center justify-center gap-4 mt-4">
                                     {['Visa', 'Mastercard', 'UPI', 'RuPay'].map((m) => (

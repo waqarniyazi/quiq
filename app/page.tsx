@@ -21,12 +21,9 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-
-
         <ProductShowcase />
         <BrandMarquee />
         <TestShowcase />
-
         <TestWorking />
         <Markers />
         <Certifications />

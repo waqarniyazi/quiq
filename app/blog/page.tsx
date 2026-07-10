@@ -6,8 +6,20 @@ import PostCards from "@/components/blog/PostCards"
 import Script from "next/script"
 
 export const metadata = {
-  title: "Blog • QUIQ",
+  title: "Blog – Health Insights, Wellness Tips & Updates",
   description: "Health insights, wellness tips, and the latest updates from the QUIQ team. Discover how to take control of your health with at-home diagnostics.",
+  openGraph: {
+    title: "Blog – Health Insights & Wellness Tips | QUIQ",
+    description: "Health insights, wellness tips, and the latest from the QUIQ team.",
+    url: "https://quiqhealth.in/blog",
+  },
+  twitter: {
+    title: "Blog – Health Insights & Wellness Tips | QUIQ",
+    description: "Health insights, wellness tips, and the latest from the QUIQ team.",
+  },
+  alternates: {
+    canonical: "https://quiqhealth.in/blog",
+  },
 }
 
 export default function BlogPage() {

@@ -1,0 +1,8 @@
+# STEALTH MODE: Block all search engine crawlers
+# Remove these Disallow rules when ready to go public
+
+User-agent: *
+Disallow: /
+
+# Sitemap (uncomment when going public)
+# Sitemap: https://quiqhealth.in/sitemap.xml

@@ -5,9 +5,10 @@ import { Footer } from '@/components/footer'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight, Package, Truck, Shield, RotateCcw } from 'lucide-react'
+import { Heart, ShoppingCart, Star, ChevronLeft, ChevronRight, Package, Truck, Shield, RotateCcw, Zap, Loader2 } from 'lucide-react'
 import { getProduct, getRelatedProducts } from '@/lib/products'
 import { useCart } from '@/lib/cart'
+import { startCheckout } from '@/lib/shopify'
 import { useState, useEffect, use } from 'react'
 import { TestWorking } from '@/components/homepage/test-working'
 
@@ -100,6 +101,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   const [quantity, setQuantity] = useState(1)
   const [isFavorite, setIsFavorite] = useState(false)
   const [activeTab, setActiveTab] = useState<'description' | 'who' | 'howToTest' | 'howToRead'>('description')
+  const [buying, setBuying] = useState(false)
+  const [buyError, setBuyError] = useState<string | null>(null)
+
+  const handleBuyNow = async () => {
+    if (!product) return
+    setBuyError(null)
+    setBuying(true)
+    try {
+      const url = await startCheckout([{ id: product.id, name: product.name, quantity }])
+      window.location.href = url
+    } catch (err) {
+      setBuyError(err instanceof Error ? err.message : 'Could not start checkout. Please try again.')
+      setBuying(false)
+    }
+  }
 
   if (!product) {
     return (
@@ -188,8 +204,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 })}
               </div>
 
-              {/* Quantity + Cart */}
-              <div className="flex items-center gap-3 mb-5">
+              {/* Quantity + Add to Cart */}
+              <div className="flex items-center gap-3 mb-3">
                 <div className="flex items-center border border-white/[0.1] rounded-xl overflow-hidden">
                   <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-3 text-white/60 hover:text-white hover:bg-white/[0.06] transition-all">−</button>
                   <span className="w-10 text-center text-sm font-semibold">{quantity}</span>
@@ -197,7 +213,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </div>
                 <button
                   onClick={() => { for (let i = 0; i < quantity; i++) addToCart({ id: product.id, name: product.name, price: product.price, currency: product.currency, image: product.image }) }}
-                  className="flex-1 py-3.5 rounded-xl bg-white text-black font-medium text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 py-3.5 rounded-xl border border-white/[0.12] text-white/80 font-medium text-sm hover:bg-white/[0.06] hover:text-white transition-all flex items-center justify-center gap-2"
                 >
                   <ShoppingCart className="w-4 h-4" /> Add to Cart
                 </button>
@@ -208,6 +224,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                   <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
                 </button>
               </div>
+
+              {/* Buy Now — straight to Shopify checkout */}
+              <button
+                onClick={handleBuyNow}
+                disabled={buying}
+                className="w-full py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed mb-1"
+              >
+                {buying ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting to secure checkout…</>
+                ) : (
+                  <><Zap className="w-4 h-4 fill-current" /> Buy Now</>
+                )}
+              </button>
+              {buyError && <p className="text-xs text-rose-400 mb-4">{buyError}</p>}
 
               {/* Payment Icons */}
               <div className="pt-4 border-t border-white/[0.06]">
