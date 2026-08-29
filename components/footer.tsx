@@ -18,6 +18,7 @@ export function Footer() {
     Company: [
       { label: 'About Us', href: '/about' },
       { label: 'How It Works', href: '/how-it-works' },
+      { label: 'Research', href: '/research' },
       { label: 'Blog', href: '/blog' },
       { label: 'Investments', href: '/investments' },
       { label: 'Contact', href: '/contact' },

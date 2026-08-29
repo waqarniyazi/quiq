@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next'
 import { allPosts } from '@/lib/blog/posts'
 import { products } from '@/lib/products'
+import { researchCategories } from '@/lib/research/data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://quiqhealth.in'
@@ -27,6 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/how-it-works`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/research`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -109,5 +116,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...staticPages, ...blogPages, ...productPages]
+  const researchPages: MetadataRoute.Sitemap = researchCategories.flatMap((category) => [
+    {
+      url: `${baseUrl}/research/${category.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    },
+    ...category.items.map((item) => ({
+      url: `${baseUrl}/research/${category.slug}/${item.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
+    })),
+  ])
+
+  return [...staticPages, ...blogPages, ...productPages, ...researchPages]
 }
