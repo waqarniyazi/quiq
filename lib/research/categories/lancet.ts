@@ -12,6 +12,196 @@ export const lancet: ResearchCategory = {
         'Lancet selection looks like a commodity decision and is not. Gauge numbering runs backwards — a higher number is a thinner needle — and thinner needles yield smaller drops. Published comparison of three lancing devices across 90 people with diabetes and 360 lancing procedures found that penetration depth drove both blood volume and pain significantly, while lancet gauge on its own did not show a significant effect; the device itself, however, did. The practical conclusion is that depth is the primary lever and should be set to the minimum that yields an adequate sample, and that the lancing mechanism matters more than the needle specification alone. Site is the third variable: upper-arm and alternate-site collection is consistently rated less painful than fingertip.',
     items: [
         {
+            slug: 'genteel',
+            name: 'Genteel vacuum-assisted lancing device',
+            origin: 'United States',
+            tagline:
+                'Reusable lancing device that uses vacuum plus vibration so blood flows without squeezing. FDA-cleared for alternate-site testing.',
+            whatItIs:
+                'A reusable lancing device that applies vacuum, together with vibration, at the puncture site so that blood comes out without the user squeezing the finger. It is FDA-cleared for alternate-site testing and uses standard square-shaft lancets. A pet version (PetTest Genteel) is sold at around $85.',
+            whyItMatters:
+                'Genteel is not viable for launch: it is a reusable device, not a per-kit component. The idea worth borrowing is no-squeeze blood flow — squeezing is where users both hurt themselves and dilute the sample with tissue fluid.',
+            keyFacts: [
+                'Vacuum plus vibration draws blood without squeezing.',
+                'FDA-cleared for alternate-site testing.',
+                'Uses standard square-shaft lancets.',
+                'Pet version (PetTest Genteel) listed at ~$85.',
+            ],
+            considerations: [
+                'Reusable device — does not fit a single-use ₹99 kit.',
+                'No peer-reviewed study was found during this research pass.',
+                'Official manufacturer site not yet located.',
+            ],
+            status: 'reference',
+            sources: [
+                {
+                    title: 'Providence — New Genteel: the "ouch-free" lancet (overview)',
+                    url: 'https://blog.providence.org/oregon-news/new-genteel-the-ouch-free-lancet',
+                },
+            ],
+            resources: [
+                { label: 'PetTest Genteel (pet version, price reference) — Chewy', href: 'https://www.chewy.com/pettest-genteel-painless-dog-cat/dp/382050', type: 'link' },
+                { label: 'Video — PetTest Genteel demo', href: 'https://youtu.be/ACnvtu4jcIM', type: 'link' },
+            ],
+        },
+        {
+            slug: 'erbilite-laser',
+            name: 'ERBILITE laser lancet',
+            vendor: 'NSL',
+            origin: 'Moscow, Russia',
+            tagline:
+                'Er:YAG laser that punches a micro-hole in the skin without a needle. Six depth levels. Clinic device.',
+            whatItIs:
+                'ERBILITE is an Er:YAG laser (2.94 µm) that creates a micro-hole in the skin instead of using a needle, with six depth levels. It is a clinic device. The founder has said a home version is in development. Note the correct name is ERBILITE, made by NSL — not "EBILITE" or "NCL".',
+            whyItMatters:
+                'Not viable for QUIQ: it is a capital device for clinic use. Kept on the watch list because published work on laser lancing (a different device) reports substantially less pain than a lancet in people with diabetes.',
+            keyFacts: [
+                'Er:YAG laser, 2.94 µm wavelength; needle-free.',
+                'Six depth levels.',
+                'Founder interview (2018) states a home version is in development.',
+                'Laser vs lancet study in diabetes reported 75% less pain (separate study, not specific to ERBILITE).',
+            ],
+            considerations: [
+                'Capital equipment, clinic use — not a kit component.',
+                'The laser-lancing evidence cited is for the LaMeditech LMT-1000 and other devices, not ERBILITE itself.',
+            ],
+            status: 'reference',
+            sources: [
+                { title: 'Gazeta.ru — founder interview (six depth levels, home version in development)', url: 'https://www.gazeta.ru/science/2018/06/27_a_11817709.shtml' },
+                { title: 'Laser lancing evidence — LaMeditech LMT-1000 (PubMed)', url: 'https://pubmed.ncbi.nlm.nih.gov/34268735/' },
+                { title: 'Laser vs lancet in diabetes — 75% less pain (PMC)', url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9723205/' },
+            ],
+            resources: [
+                { label: 'ERBILITE — GK Vector (Russian distributor)', href: 'https://gkvector.com/catalog/laboratornoe-oborudovanie/gematologiya/sistemy-dlya-zabora-krovi/skarifikatory-i-lancety/erbilite/', type: 'link' },
+                { label: 'ERBILITE — Planeta-Med (alternate distributor)', href: 'https://www.planeta-med.ru/catalog/med/perf/erbi1', type: 'link' },
+            ],
+        },
+        {
+            slug: 'eth-leech-suction-cup',
+            name: 'Leech-style suction cup (ETH Zurich)',
+            vendor: 'ETH Zurich — Leroux group',
+            origin: 'Switzerland',
+            tagline:
+                'A 2.5 cm silicone suction cup with ~12 microneedles, worn on the upper arm or back. ~195 µL in animal tests. ETH is seeking partners.',
+            whatItIs:
+                'A 2.5 cm silicone suction cup containing around twelve steel microneedles, modelled on how leeches draw blood. It is applied to the upper arm or back and collected ~195 µL in animal tests. A biodegradable version is in development. It is a prototype and is not for sale.',
+            whyItMatters:
+                'Our best innovation candidate. Not a launch component, but a partnership or licensing candidate for a future Integrated Pen: it combines the off-finger site and low pain of premium upper-arm collectors with a very simple part. ETH has publicly sought partners.',
+            keyFacts: [
+                '2.5 cm silicone suction cup with ~12 steel microneedles.',
+                'Site: upper arm or back.',
+                '~195 µL collected in animal tests.',
+                'Biodegradable version in development.',
+                'Published: Zoratto et al., Advanced Science 2024 (DOI 10.1002/advs.202308809).',
+                'Contact: Prof. Jean-Christophe Leroux group (Drug Formulation & Delivery); lead author Nicole Zoratto.',
+            ],
+            considerations: [
+                'Prototype — not for sale; volume data is from animal tests only.',
+                'Licensing terms and timelines unknown until ETH is approached.',
+            ],
+            status: 'evaluating',
+            sources: [
+                { title: 'ETH News — Blood diagnostics modelled on leeches', url: 'https://ethz.ch/en/news-and-events/eth-news/news/2024/05/blood-diagnostics-modelled-on-leeches.html' },
+                { title: 'Zoratto et al., Advanced Science 2024', url: 'https://doi.org/10.1002/advs.202308809' },
+                { title: 'Advanced Science News — explainer (partner-seeking quote)', url: 'https://www.advancedsciencenews.com/a-blood-sampling-device-inspired-by-leeches/' },
+                { title: '360Dx — industry coverage', url: 'https://www.360dx.com/hematologycoagulation/inspired-leeches-eth-zurich-researchers-develop-blood-collection-device' },
+            ],
+        },
+        {
+            slug: 'unistik-3-extra',
+            name: 'Unistik 3 Extra',
+            vendor: 'Owen Mumford',
+            origin: 'United Kingdom',
+            tagline:
+                '21G × 2.0 mm side-firing safety lancet with Comfort Zone — eight raised dots that help mask pain.',
+            whatItIs:
+                'A single-use, side-firing safety lancet at 21G × 2.0 mm. Its Comfort Zone design uses eight raised dots around the puncture point to help mask the sensation of the prick.',
+            whyItMatters:
+                'The high-flow end of the range: most blood, but a coarser gauge and deeper puncture than our 28G × 1.8 mm launch spec. The side trigger is the least intuitive activation style for a first-time self-tester.',
+            keyFacts: [
+                '21G × 2.0 mm, side-firing.',
+                'Comfort Zone: 8 raised dots to mask pain.',
+                'Price: ₹11/pc (internal figure). UK reference: £12.65 per 100 ex VAT.',
+            ],
+            considerations: ['Side-button activation is the least intuitive type for self-test users.'],
+            status: 'evaluating',
+            sources: [
+                { title: 'FDA GUDID — Unistik 3 Extra spec record', url: 'https://accessgudid.nlm.nih.gov/devices/00384701012013' },
+                { title: 'CLP — Comfort Zone explainer', url: 'https://clpmag.com/miscellaneous/single-use-safety-lancet/' },
+            ],
+            resources: [
+                { label: 'DS Medical — Unistik 3 Extra, box of 100', href: 'https://dsmedical.co.uk/treatment/needles-lancets/owen-mumford-unistik-3-extra-lancet-box-of-100/', type: 'link' },
+            ],
+        },
+        {
+            slug: 'accu-chek-safe-t-pro-uno',
+            name: 'Accu-Chek Safe-T-Pro Uno',
+            vendor: 'Roche',
+            tagline: 'Single-use push-button safety lancet, pre-set to 1.5 mm. Widely available in India.',
+            whatItIs:
+                'A single-use safety lancet with a pre-set 1.5 mm depth, activated with a push button.',
+            whyItMatters:
+                'The India-availability benchmark: already stocked by mainstream pharmacies, which makes it an easy reference for pricing and user familiarity.',
+            keyFacts: [
+                'Pre-set 1.5 mm depth; push-button; single use.',
+                'MRP ₹3,000 per 200 (₹15/pc); online ₹1,850 per 200 (~₹9/pc); wholesale listing ₹4.85/pc.',
+                'Working estimate at volume: ₹5–9/pc (estimate, pending supplier quotes).',
+            ],
+            considerations: ['Push-button rather than contact-activated — a step more for the user than our preferred type.'],
+            status: 'evaluating',
+            sources: [],
+            resources: [
+                { label: 'Apollo Pharmacy — Safe-T-Pro Uno', href: 'https://www.apollopharmacy.in/otc/accu-chek-safe-t-pro-uno', type: 'link' },
+                { label: 'Colmed — box of 200 (₹1,850)', href: 'https://www.colmed.in/accu-chek-safe-t-pro-uno-lancing-device-box-of-200.html', type: 'link' },
+                { label: 'IndiaMART — wholesale listing (₹4.85/pc)', href: 'https://www.indiamart.com/proddetail/accu-check-safe-t-pro-uno-safety-lancet-24142483062.html', type: 'link' },
+            ],
+        },
+        {
+            slug: 'accu-chek-safe-t-pro-plus',
+            name: 'Accu-Chek Safe-T-Pro Plus',
+            vendor: 'Roche',
+            tagline: '23G push-button safety lancet with three depths — 1.3, 1.8 and 2.3 mm — in one SKU.',
+            whatItIs:
+                'An adjustable single-use safety lancet: 23G, with three selectable depths (1.3 / 1.8 / 2.3 mm), activated by push button.',
+            whyItMatters:
+                'Three depths in one SKU is a useful way to test which depth gives enough blood for our 20–25 µL sample, but the unit price is the highest of the contenders.',
+            keyFacts: [
+                '23G; depths 1.3 / 1.8 / 2.3 mm; push button.',
+                'US ~$0.36/pc (~₹30); UK £45.74 per 200 ex VAT (~₹27/pc).',
+                'India estimate ₹15–25/pc (estimate, pending supplier quotes).',
+            ],
+            considerations: ['Highest unit cost of the contenders — better suited to a bench study than a ₹99 kit.'],
+            status: 'evaluating',
+            sources: [],
+            resources: [
+                { label: 'Carewell (US) — Safe-T-Pro Plus', href: 'https://carewell.com/product/accu-chek-safe-t-pro-plus-adjustable-depth-lancet', type: 'link' },
+                { label: 'MidMeds (UK) — depth specs', href: 'https://www.midmeds.co.uk/shop/md04547-roche-accu-chek-safe-t-pro-plus-lancets-x-200-67863', type: 'link' },
+            ],
+        },
+        {
+            slug: 'sterilance',
+            name: 'SteriLance safety lancets',
+            vendor: 'SteriLance',
+            origin: 'Suzhou, China',
+            tagline:
+                'OEM/ODM safety lancet maker — ISO 13485, 5-year sterility, pressure- and button-activated models, QUIQ branding possible.',
+            whatItIs:
+                'A Chinese OEM/ODM manufacturer of safety lancets with ISO 13485 certification and 5-year sterility. The range includes pressure-activated (Press, Press Plus, Impress), button-activated (Elite, Lite3, Lite4) and adjustable-depth (Elite Pro, Flex3) models. Press2 comes in 30G / 28G / 26G × 1.8 mm; Press in 23G / 28G × 1.8 mm.',
+            whyItMatters:
+                'The only contender that offers our launch spec — 28G × 1.8 mm pressure-activated — with QUIQ branding and the lowest estimated cost.',
+            keyFacts: [
+                'OEM/ODM, ISO 13485, 5-year sterility.',
+                'Press2: 30G / 28G / 26G × 1.8 mm. Press: 23G / 28G × 1.8 mm.',
+                'Estimated ₹3–6/pc at 10–50k units (estimate, pending supplier quotes).',
+            ],
+            considerations: ['Pricing is an estimate until quotes at 10k and 50k units are received.'],
+            status: 'evaluating',
+            sources: [
+                { title: 'SteriLance — pressure-activated vs push-button safety lancets', url: 'https://en.sterilance.com/Insights/Pressure-Activated-Safety-Lancets-Vs-Push-Button-Designs-How-To-Compare-Them.html' },
+            ],
+            resources: [{ label: 'SteriLance safety lancet catalogue', href: 'https://en.sterilance.com/safety_lancet', type: 'link' }],
+        },
+        {
             slug: 'colour-coded-gauge',
             name: 'Colour-coded lancets by gauge',
             tagline:

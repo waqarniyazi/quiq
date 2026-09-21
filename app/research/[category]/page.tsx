@@ -5,6 +5,14 @@ import { Footer } from '@/components/footer'
 import Breadcrumbs from '@/components/research/breadcrumbs'
 import ItemCard from '@/components/research/item-card'
 import { getCategory, researchCategories } from '@/lib/research/data'
+import LancetShowcase from '@/components/research/showcase/lancet-showcase'
+import PipetteShowcase from '@/components/research/showcase/pipette-showcase'
+
+/** Categories presented as slide-style showcases rather than the standard entry grid. */
+const SHOWCASES: Record<string, () => React.JSX.Element> = {
+  lancet: LancetShowcase,
+  'pipette-buffer': PipetteShowcase,
+}
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>
@@ -38,6 +46,29 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!category) notFound()
 
   const Icon = category.icon
+  const Showcase = SHOWCASES[category.slug]
+
+  if (Showcase) {
+    return (
+      <div className="min-h-screen bg-black text-white">
+        <Header />
+        <main className="pt-24 pb-16">
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-6xl pt-10">
+              <Breadcrumbs
+                crumbs={[
+                  { label: 'Research', href: '/research' },
+                  { label: category.title },
+                ]}
+              />
+              <Showcase />
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
