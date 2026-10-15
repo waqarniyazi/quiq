@@ -3,9 +3,12 @@ import { Footer } from '@/components/footer'
 import CategoryCard from '@/components/research/category-card'
 import ResearchSearch from '@/components/research/research-search'
 import type { SearchIndexCategory } from '@/components/research/research-search'
-import { researchCategories, totalResearchItems } from '@/lib/research/data'
+import { countResearchItems, getResearchCategories } from '@/lib/research/data'
 
-export default function ResearchPage() {
+export default async function ResearchPage() {
+  const researchCategories = await getResearchCategories()
+  const totalResearchItems = countResearchItems(researchCategories)
+
   // Icons cannot cross to the client component, so the search index is text-only.
   const searchIndex: SearchIndexCategory[] = researchCategories.map((category) => ({
     slug: category.slug,

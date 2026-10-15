@@ -4,7 +4,7 @@ import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import Breadcrumbs from '@/components/research/breadcrumbs'
 import ItemCard from '@/components/research/item-card'
-import { getCategory, researchCategories } from '@/lib/research/data'
+import { getCategory, getResearchCategories } from '@/lib/research/data'
 import LancetShowcase from '@/components/research/showcase/lancet-showcase'
 import PipetteShowcase from '@/components/research/showcase/pipette-showcase'
 
@@ -18,13 +18,14 @@ interface CategoryPageProps {
   params: Promise<{ category: string }>
 }
 
-export function generateStaticParams() {
-  return researchCategories.map((category) => ({ category: category.slug }))
+export async function generateStaticParams() {
+  const categories = await getResearchCategories()
+  return categories.map((category) => ({ category: category.slug }))
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category: slug } = await params
-  const category = getCategory(slug)
+  const category = await getCategory(slug)
 
   if (!category) return { title: 'Not found' }
 
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category: slug } = await params
-  const category = getCategory(slug)
+  const [category, researchCategories] = await Promise.all([getCategory(slug), getResearchCategories()])
 
   if (!category) notFound()
 

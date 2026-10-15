@@ -1,83 +1,76 @@
+import { cache } from 'react'
+import { sanityFetch } from '@/sanity/lib/client'
+import { researchIcon } from './icons'
 import type { ResearchCategory, ResearchItem } from './types'
 
-import { testStrip } from './categories/test-strip'
-import { testDesign } from './categories/test-design'
-import { testCassette } from './categories/test-cassette'
-import { conjugate } from './categories/conjugate'
-import { lancet } from './categories/lancet'
-import { pipetteBuffer } from './categories/pipette-buffer'
-import { swabs } from './categories/swabs'
-import { reader } from './categories/reader'
-import { selfTestPlayers } from './categories/self-test-players'
-import { b2bMarketplace } from './categories/b2b-marketplace'
-import { cdmoCro } from './categories/cdmo-cro'
-import { rapidPrototyping } from './categories/rapid-prototyping'
-import { researchOrganisations } from './categories/research-organisations'
-import { testingLabs } from './categories/testing-labs'
-import { packagingDesign } from './categories/packaging-design'
-import { testTiming } from './categories/test-timing'
-import { b2cChannels } from './categories/b2c-channels'
-import { lancingEfficacy } from './categories/lancing-efficacy'
+type RawCategory = Omit<ResearchCategory, 'icon'> & { icon?: string }
+
+const RESEARCH_QUERY = `*[_type == "researchCategory" && defined(slug.current)] | order(number asc) {
+  "slug": slug.current,
+  number,
+  title,
+  icon,
+  summary,
+  "deepDive": coalesce(deepDive, ""),
+  "items": *[_type == "researchItem" && references(^._id) && defined(slug.current)] | order(order asc, name asc) {
+    "slug": slug.current,
+    name,
+    vendor,
+    origin,
+    tagline,
+    "whatItIs": coalesce(whatItIs, ""),
+    "whyItMatters": coalesce(whyItMatters, ""),
+    "keyFacts": coalesce(keyFacts, []),
+    "considerations": coalesce(considerations, []),
+    status,
+    "sources": coalesce(sources[]{ title, url }, []),
+    resources[]{ label, href, type }
+  }
+}`
 
 /**
- * The 18 key areas, in deck order. Each lives in its own file under
- * `categories/` so an area can be edited without touching the rest.
+ * The key areas in display order, each with its items. Content lives in
+ * Sanity (edit at /studio); one query feeds every research page.
  */
-export const researchCategories: ResearchCategory[] = [
-    testStrip,
-    testDesign,
-    testCassette,
-    conjugate,
-    lancet,
-    pipetteBuffer,
-    swabs,
-    reader,
-    selfTestPlayers,
-    b2bMarketplace,
-    cdmoCro,
-    rapidPrototyping,
-    researchOrganisations,
-    testingLabs,
-    packagingDesign,
-    testTiming,
-    b2cChannels,
-    lancingEfficacy,
-]
+export const getResearchCategories = cache(async (): Promise<ResearchCategory[]> => {
+  const categories = await sanityFetch<RawCategory[]>(RESEARCH_QUERY, {}, ['research'])
+  return categories.map((category) => ({ ...category, icon: researchIcon(category.icon) }))
+})
 
-export function getCategory(slug: string): ResearchCategory | undefined {
-    return researchCategories.find((category) => category.slug === slug)
+export async function getCategory(slug: string): Promise<ResearchCategory | undefined> {
+  const categories = await getResearchCategories()
+  return categories.find((category) => category.slug === slug)
 }
 
-export function getItem(
-    categorySlug: string,
-    itemSlug: string
-): { category: ResearchCategory; item: ResearchItem } | undefined {
-    const category = getCategory(categorySlug)
-    if (!category) return undefined
+export async function getItem(
+  categorySlug: string,
+  itemSlug: string
+): Promise<{ category: ResearchCategory; item: ResearchItem } | undefined> {
+  const category = await getCategory(categorySlug)
+  if (!category) return undefined
 
-    const item = category.items.find((entry) => entry.slug === itemSlug)
-    if (!item) return undefined
+  const item = category.items.find((entry) => entry.slug === itemSlug)
+  if (!item) return undefined
 
-    return { category, item }
+  return { category, item }
 }
 
 /** Previous and next item within the same category, for detail-page navigation. */
 export function getItemNeighbours(
-    category: ResearchCategory,
-    itemSlug: string
+  category: ResearchCategory,
+  itemSlug: string
 ): { previous?: ResearchItem; next?: ResearchItem } {
-    const index = category.items.findIndex((entry) => entry.slug === itemSlug)
-    if (index === -1) return {}
+  const index = category.items.findIndex((entry) => entry.slug === itemSlug)
+  if (index === -1) return {}
 
-    return {
-        previous: index > 0 ? category.items[index - 1] : undefined,
-        next: index < category.items.length - 1 ? category.items[index + 1] : undefined,
-    }
+  return {
+    previous: index > 0 ? category.items[index - 1] : undefined,
+    next: index < category.items.length - 1 ? category.items[index + 1] : undefined,
+  }
 }
 
-export const totalResearchItems = researchCategories.reduce(
-    (count, category) => count + category.items.length,
-    0
-)
+export function countResearchItems(categories: ResearchCategory[]): number {
+  return categories.reduce((count, category) => count + category.items.length, 0)
+}
 
 export type { ResearchCategory, ResearchItem }

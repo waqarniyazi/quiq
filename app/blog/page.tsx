@@ -1,4 +1,4 @@
-import { allPosts } from "@/lib/blog/posts"
+import { getAllPosts } from "@/lib/blog/posts"
 import { SITE_NAME, SITE_URL, SITE_SAME_AS } from "@/lib/constants"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -22,8 +22,8 @@ export const metadata = {
   },
 }
 
-export default function BlogPage() {
-  const posts = allPosts.sort((a, b) => (a.date < b.date ? 1 : -1))
+export default async function BlogPage() {
+  const posts = await getAllPosts()
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",

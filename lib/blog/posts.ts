@@ -1,3 +1,9 @@
+import { cache } from 'react'
+import type { PortableTextBlock } from '@portabletext/react'
+import type { SanityImageSource } from '@sanity/image-url'
+import { sanityFetch } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
+
 export type Post = {
   slug: string
   title: string
@@ -5,168 +11,44 @@ export type Post = {
   date: string
   modifiedTime?: string
   category?: string
+  author?: string
   image?: string
 }
 
-// Seed from bundled content; replace with CMS later
-export const allPosts: Post[] = [
-  {
-    slug: 'vitamin-d-deficiency-india-silent-epidemic',
-    title: 'Why Most Indians Never Know They Have Vitamin D Deficiency (Until It\'s Too Late)',
-    summary: '70-80% of Indians are Vitamin D deficient, yet its vague symptoms are often ignored. Learn why it\'s a silent epidemic and how a simple home test can change everything.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'ce-ivd-certified-health-test-labels',
-    title: 'CE & IVD Certified — What These Labels Mean and Why They Matter for Your Health Test',
-    summary: 'Understand the CE & IVD certification on your self-test kit. Learn why these labels are your guarantee of safety, accuracy, and reliability for trustworthy at-home health insights.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'crp-inflammation-why-you-should-care',
-    title: 'What Is CRP and Why Should You Care About Inflammation in Your Body?',
-    summary: 'Learn about C-Reactive Protein (CRP), the silent marker of chronic inflammation linked to heart disease, diabetes, and fatigue. Discover why you should test and how to take control.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'dengue-season-symptoms-early-detection',
-    title: 'Dengue Season Is Here — Do You Know the Symptoms Before It Gets Serious?',
-    summary: 'Learn to spot early dengue symptoms and discover how rapid home testing can help you act fast during the critical monsoon season in India.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'heart-attack-warning-signs-troponin-test',
-    title: 'Heart Attack Warning Signs You\'re Ignoring — And What Troponin Can Tell You',
-    summary: 'Learn the subtle signs of a heart attack and how a Troponin test can be a critical first step in understanding your cardiac health from home.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'hiv-testing-india-breaking-stigma-home-kits',
-    title: 'HIV Testing in India: Breaking the Stigma with At-Home Kits',
-    summary: 'Explore how private, at-home HIV testing can help bridge India\'s testing gap and empower individuals to take control of their health discreetly and confidently.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'india-diagnostic-desert-health-test-access',
-    title: 'India\'s Diagnostic Desert: Why 70% of the Country Has No Access to Basic Health Tests',
-    summary: 'Explore the stark reality of India\'s diagnostic gap and how affordable, private self-testing is bridging the divide for millions.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'iron-deficiency-anaemia-ferritin-test',
-    title: 'Iron Deficiency vs Anaemia: What\'s the Difference and Why the Ferritin Test Matters',
-    summary: 'Confused between iron deficiency and anaemia? Learn why ferritin is the key early indicator, who is most at risk in India, and how to test it privately at home.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'lab-tests-india-expensive-inconvenient',
-    title: 'Lab Tests in India: Why They\'re Expensive, Inconvenient, and Often Skipped',
-    summary: 'Explore the hidden costs and friction of traditional lab testing in India, and discover how affordable, private self-testing is changing the game for millions.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'malaria-india-monsoon-threat-rapid-testing',
-    title: 'Malaria in 2025: Still India\'s Deadliest Monsoon Threat',
-    summary: 'As the monsoon arrives, malaria remains a critical threat. Learn why rapid diagnosis is key to survival and how a 10-minute home test can change the game for millions.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'monthly-health-monitoring-routine-home',
-    title: 'How to Build a ₹500 Monthly Health Monitoring Routine at Home',
-    summary: 'Discover a practical, affordable 12-month plan for proactive health monitoring at home using reliable self-test kits, designed for Indian families and busy professionals.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'psa-testing-prostate-cancer-indian-men',
-    title: 'PSA Testing: The One Blood Marker Every Indian Man Over 40 Should Know',
-    summary: 'A guide to PSA testing for Indian men. Learn why this simple blood marker is crucial for prostate health and how affordable, private home testing can break down screening barriers.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'self-test-kits-beyond-covid-pregnancy',
-    title: 'Self-Test Kits Are Not Just for COVID and Pregnancy — Here\'s What Else You Can Test at Home',
-    summary: 'Discover the wide world of at-home diagnostics beyond COVID. Learn how you can check your vitamins, thyroid, heart health, and more in just 10 minutes.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'thyroid-epidemic-india-tsh-testing',
-    title: 'The Thyroid Epidemic Nobody Is Talking About in India',
-    summary: 'Thyroid disorders silently affect 1 in 10 Indians. Learn about the symptoms, why women are at higher risk, and how a simple at-home TSH test can be your first step to clarity.',
-    date: '2026-03-13T00:00:00Z',
-    modifiedTime: '2026-03-13T00:00:00Z',
-  },
-  {
-    slug: 'urban-indians-vitamin-b12-deficiency',
-    title: 'Why Urban Indians Are the Most Vitamin B12 Deficient — And Don\'t Realise It',
-    summary: 'Urban, educated Indians face a hidden health crisis: widespread Vitamin B12 deficiency. Discover the surprising causes, silent symptoms, and how to test privately at home.',
-    date: '2026-03-25T00:00:00Z',
-    modifiedTime: '2026-03-25T00:00:00Z',
-  },
-  {
-    slug: 'hba1c-diabetes-test-at-home-india',
-    title: 'HbA1c Test at Home: Monitor Your Blood Sugar Without Fasting or Lab Visits',
-    summary: 'Take control of your health with a CE & IVD certified HbA1c test at home. Get results in 10 minutes for just ₹99. No fasting or lab visits required.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/hba1c/1.png'
-  },
-  {
-    slug: 'tsh-thyroid-test-at-home-india',
-    title: 'TSH Thyroid Test at Home: Your First Step to Understanding Thyroid Health',
-    summary: 'Check your thyroid health privately at home in 10 minutes. Understand TSH levels, a key marker for common disorders affecting 1 in 10 Indians.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/tsh/1.webp'
-  },
-  {
-    slug: 'vitamin-d-self-test-at-home-india',
-    title: 'Vitamin D Self Test: Why Every Indian Should Check Their Levels at Home',
-    summary: 'Discover why 70-80% of Indians are Vitamin D deficient and how you can check your levels privately at home in just 10 minutes for ₹99.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/vitamin-d/1.png'
-  },
-  {
-    slug: 'vitamin-b12-test-at-home-vegetarians-india',
-    title: 'Vitamin B12 Test at Home: Why India\'s Vegetarian Population Needs This',
-    summary: 'Over 80% of Indian vegetarians are B12 deficient. Learn why it matters, spot the symptoms, and test your levels privately at home in just 10 minutes.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/vitamin-b12/1.webp'
-  },
-  {
-    slug: 'ferritin-iron-deficiency-test-at-home',
-    title: 'Iron Deficiency (Ferritin) Test: Catch It Before Anaemia Develops',
-    summary: 'Over 50% of Indian women are iron deficient. Discover how a simple 10-minute ferritin test at home can detect a deficiency before it becomes full-blown anaemia.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/iron-deficiency/1.webp'
-  },
-  {
-    slug: 'dust-allergy-test-at-home-india',
-    title: 'Dust Allergy Test: Find Out If Dust Mites Are Behind Your Sneezing',
-    summary: 'Struggling with constant sneezing and congestion? It might be a dust mite allergy. Learn about this common Indian trigger and how to test for it privately at home in 10 minutes.',
-    date: '2026-03-17T00:00:00Z',
-    modifiedTime: '2026-03-17T00:00:00Z',
-    category: 'Product',
-    image: '/product/dust-allergy/1.webp'
-  }
-]
+export type PostWithBody = Post & { body: PortableTextBlock[] }
+
+type RawPost = Omit<Post, 'image'> & { coverImage?: SanityImageSource; body?: PortableTextBlock[] }
+
+const POST_FIELDS = `
+  "slug": slug.current,
+  title,
+  summary,
+  "date": publishedAt,
+  "modifiedTime": modifiedAt,
+  category,
+  author,
+  coverImage
+`
+
+function toPost({ coverImage, ...post }: RawPost): Post {
+  return { ...post, image: coverImage ? urlFor(coverImage).width(1600).url() : undefined }
+}
+
+/** All published posts, newest first. Content lives in Sanity (edit at /studio). */
+export const getAllPosts = cache(async (): Promise<Post[]> => {
+  const posts = await sanityFetch<RawPost[]>(
+    `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) { ${POST_FIELDS} }`,
+    {},
+    ['post']
+  )
+  return posts.map(toPost)
+})
+
+export const getPost = cache(async (slug: string): Promise<PostWithBody | null> => {
+  const post = await sanityFetch<RawPost | null>(
+    `*[_type == "post" && slug.current == $slug][0] { ${POST_FIELDS}, body }`,
+    { slug },
+    ['post']
+  )
+  return post ? { ...toPost(post), body: post.body ?? [] } : null
+})

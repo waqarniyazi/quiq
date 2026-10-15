@@ -1,9 +1,11 @@
 import { MetadataRoute } from 'next'
-import { allPosts } from '@/lib/blog/posts'
+import { getAllPosts } from '@/lib/blog/posts'
 import { products } from '@/lib/products'
-import { researchCategories } from '@/lib/research/data'
+import { getResearchCategories } from '@/lib/research/data'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [allPosts, researchCategories] = await Promise.all([getAllPosts(), getResearchCategories()])
+
   const baseUrl = 'https://quiqhealth.in'
 
   // Static pages

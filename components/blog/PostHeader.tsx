@@ -10,9 +10,10 @@ type Props = {
   date: string
   slug: string
   summary?: string
+  image?: string
 }
 
-export default function PostHeader({ title, date, slug, summary }: Props) {
+export default function PostHeader({ title, date, slug, summary, image }: Props) {
   const formattedDate = date ? new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -46,7 +47,7 @@ export default function PostHeader({ title, date, slug, summary }: Props) {
       <div className="mx-auto max-w-6xl">
         <ImageZoom>
           <BlurImage
-            src={`/images/blog/${slug}/cover.png`}
+            src={image || `/images/blog/${slug}/cover.png`}
             className="rounded-lg"
             width={1200}
             height={630}

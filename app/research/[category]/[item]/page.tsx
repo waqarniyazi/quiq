@@ -7,22 +7,23 @@ import { Footer } from '@/components/footer'
 import Breadcrumbs from '@/components/research/breadcrumbs'
 import SourceList from '@/components/research/source-list'
 import ResourceLinks from '@/components/research/resource-links'
-import { getItem, getItemNeighbours, researchCategories } from '@/lib/research/data'
+import { getItem, getItemNeighbours, getResearchCategories } from '@/lib/research/data'
 import { STATUS_LABELS, STATUS_STYLES } from '@/lib/research/types'
 
 interface ItemPageProps {
   params: Promise<{ category: string; item: string }>
 }
 
-export function generateStaticParams() {
-  return researchCategories.flatMap((category) =>
+export async function generateStaticParams() {
+  const categories = await getResearchCategories()
+  return categories.flatMap((category) =>
     category.items.map((item) => ({ category: category.slug, item: item.slug }))
   )
 }
 
 export async function generateMetadata({ params }: ItemPageProps): Promise<Metadata> {
   const { category: categorySlug, item: itemSlug } = await params
-  const found = getItem(categorySlug, itemSlug)
+  const found = await getItem(categorySlug, itemSlug)
 
   if (!found) return { title: 'Not found' }
 
@@ -63,7 +64,7 @@ function FactList({ entries }: { entries: string[] }) {
 
 export default async function ItemPage({ params }: ItemPageProps) {
   const { category: categorySlug, item: itemSlug } = await params
-  const found = getItem(categorySlug, itemSlug)
+  const found = await getItem(categorySlug, itemSlug)
 
   if (!found) notFound()
 

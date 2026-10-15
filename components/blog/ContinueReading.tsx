@@ -41,7 +41,7 @@ export function ContinueReading({ currentSlug, allPosts, maxPosts = 3 }: Continu
     )
 }
 
-function ContinueReadingCard({ slug, title, summary, date }: Post) {
+function ContinueReadingCard({ slug, title, summary, date, image }: Post) {
     const formattedDate = new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -55,7 +55,7 @@ function ContinueReadingCard({ slug, title, summary, date }: Post) {
         >
             <div className="p-2 overflow-hidden">
                 <BlurImage
-                    src={`/images/blog/${slug}/cover.png`}
+                    src={image || `/images/blog/${slug}/cover.png`}
                     className="rounded-lg overflow-hidden transition-transform duration-300 group-hover:scale-105"
                     width={1200}
                     height={630}
