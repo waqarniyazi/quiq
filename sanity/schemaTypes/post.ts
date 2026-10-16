@@ -1,5 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { DocumentTextIcon } from '@sanity/icons/DocumentText'
+import { BLOG_CATEGORIES } from '../../lib/blog/categories'
 
 export const post = defineType({
   name: 'post',
@@ -33,8 +34,8 @@ export const post = defineType({
     defineField({
       name: 'category',
       type: 'string',
-      description: 'Posts tagged "Product" appear under the Product filter on /blog.',
-      options: { list: ['Product'] },
+      description: 'Filter tab on /blog. Tabs only appear for categories that have posts.',
+      options: { list: [...BLOG_CATEGORIES], layout: 'radio' },
     }),
     defineField({
       name: 'coverImage',

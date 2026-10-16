@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { Post } from '@/lib/blog/posts'
+import { BLOG_CATEGORIES, BLOG_CATEGORY_LABELS } from '@/lib/blog/categories'
 import { BlurImage } from '@/components/ui/blur-image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
@@ -19,7 +20,7 @@ const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const categories = ['All', 'Product']
+  const categories = ['All', ...BLOG_CATEGORIES.filter(c => posts.some(p => p.category === c))]
 
   const filteredPosts = selectedCategory === 'All' 
     ? posts 
@@ -34,7 +35,7 @@ const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll
     <div className="space-y-8">
       {/* Category Tabs */}
       {!showViewAll && (
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
           {categories.map(category => (
             <button
               key={category}
@@ -48,7 +49,7 @@ const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll
                   : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
               }`}
             >
-              {category} {category === 'Product' ? 's' : ''}
+              {BLOG_CATEGORY_LABELS[category as keyof typeof BLOG_CATEGORY_LABELS] ?? category}
             </button>
           ))}
         </div>
