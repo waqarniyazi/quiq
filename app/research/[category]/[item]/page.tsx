@@ -34,8 +34,17 @@ export async function generateMetadata({ params }: ItemPageProps): Promise<Metad
   return {
     title,
     description: item.tagline,
-    openGraph: { title: item.name, description: item.tagline, url },
-    twitter: { title: item.name, description: item.tagline },
+    openGraph: {
+      title: item.name,
+      description: item.tagline,
+      url,
+      images: item.cover ? [{ url: item.cover.src, width: 1280, height: 720, alt: item.cover.alt }] : undefined,
+    },
+    twitter: {
+      title: item.name,
+      description: item.tagline,
+      images: item.cover ? [item.cover.src] : undefined,
+    },
     alternates: { canonical: url },
   }
 }
@@ -104,6 +113,25 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 </span>
               )}
             </div>
+
+            {item.cover && (
+              <figure
+                className="relative aspect-[16/9] mb-10 overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.04] bg-cover bg-center"
+                style={item.cover.lqip ? { backgroundImage: `url(${item.cover.lqip})` } : undefined}
+              >
+                <img
+                  src={item.cover.src}
+                  srcSet={item.cover.srcSet}
+                  sizes="(min-width: 768px) 768px, 100vw"
+                  alt={item.cover.alt}
+                  width={1280}
+                  height={720}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </figure>
+            )}
 
             <p className="text-lg text-white/60 leading-relaxed mb-14">{item.tagline}</p>
 

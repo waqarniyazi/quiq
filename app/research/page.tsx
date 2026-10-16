@@ -1,6 +1,7 @@
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
 import CategoryCard from '@/components/research/category-card'
+import PaginatedGrid from '@/components/research/paginated-grid'
 import ResearchSearch from '@/components/research/research-search'
 import type { SearchIndexCategory } from '@/components/research/research-search'
 import { countResearchItems, getResearchCategories } from '@/lib/research/data'
@@ -42,11 +43,11 @@ export default async function ResearchPage() {
             </div>
 
             <ResearchSearch index={searchIndex}>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {researchCategories.map((category) => (
-                  <CategoryCard key={category.slug} category={category} />
+              <PaginatedGrid pageSize={12}>
+                {researchCategories.map((category, index) => (
+                  <CategoryCard key={category.slug} category={category} priority={index < 2} />
                 ))}
-              </div>
+              </PaginatedGrid>
             </ResearchSearch>
           </div>
         </section>

@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import { FolderIcon } from '@sanity/icons/Folder'
 import { RESEARCH_ICONS } from '../../lib/research/icons'
+import { cardImageField } from './cardImage'
 
 export const researchCategory = defineType({
   name: 'researchCategory',
@@ -34,6 +35,7 @@ export const researchCategory = defineType({
       description: 'One or two sentences, shown on the index card.',
       validation: (rule) => rule.required(),
     }),
+    cardImageField('Shown at the top of the index card (cropped to 4:3).'),
     defineField({
       name: 'deepDive',
       title: 'Deep dive',

@@ -27,6 +27,10 @@ export interface ResearchItem {
     origin?: string
     /** One line, shown on the category list card. */
     tagline: string
+    /** 4:3 crop for the entry card. */
+    image?: ResearchCardImage
+    /** 16:9 crop of the same image, used as the entry page cover. */
+    cover?: ResearchCardImage
     /** Plain-language explanation — written for the public reader. */
     whatItIs: string
     /** Relevance to QUIQ specifically — written for the team. */
@@ -39,11 +43,21 @@ export interface ResearchItem {
     resources?: ResearchResource[]
 }
 
+/** A responsive image at a fixed aspect ratio, already resolved to Sanity CDN URLs. */
+export interface ResearchCardImage {
+    src: string
+    srcSet: string
+    alt: string
+    /** Tiny base64 blur placeholder shown while the real image loads. */
+    lqip?: string
+}
+
 export interface ResearchCategory {
     slug: string
     number: number
     title: string
     icon: LucideIcon
+    image?: ResearchCardImage
     /** One or two sentences, shown on the index card. */
     summary: string
     /** Longer orientation, shown at the top of the category page. */

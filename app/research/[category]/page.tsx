@@ -108,8 +108,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             </h2>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {category.items.map((item) => (
-                <ItemCard key={item.slug} item={item} categorySlug={category.slug} />
+              {category.items.map((item, index) => (
+                <ItemCard key={item.slug} item={item} categorySlug={category.slug} priority={index < 2} />
               ))}
             </div>
           </div>

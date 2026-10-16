@@ -1,15 +1,57 @@
 import { cache } from 'react'
 import { sanityFetch } from '@/sanity/lib/client'
+import { urlFor } from '@/sanity/lib/image'
 import { researchIcon } from './icons'
-import type { ResearchCategory, ResearchItem } from './types'
+import type { ResearchCardImage, ResearchCategory, ResearchItem } from './types'
 
-type RawCategory = Omit<ResearchCategory, 'icon'> & { icon?: string }
+interface RawImage {
+  alt?: string
+  crop?: Record<string, number>
+  hotspot?: Record<string, number>
+  asset?: { _id: string; lqip?: string }
+}
+
+type RawItem = Omit<ResearchItem, 'image' | 'cover'> & { image?: RawImage }
+type RawCategory = Omit<ResearchCategory, 'icon' | 'image' | 'items'> & {
+  icon?: string
+  image?: RawImage
+  items: RawItem[]
+}
+
+interface ImageShape {
+  /** Height ÷ width. */
+  ratio: number
+  /** Widths requested from the Sanity CDN, which crops and serves AVIF/WebP. */
+  widths: number[]
+  fallbackWidth: number
+}
+
+const CARD_SHAPE: ImageShape = { ratio: 3 / 4, widths: [320, 480, 640, 800], fallbackWidth: 640 }
+const COVER_SHAPE: ImageShape = { ratio: 9 / 16, widths: [640, 960, 1280, 1600], fallbackWidth: 1280 }
+
+function sanityImage(image: RawImage | undefined, fallbackAlt: string, shape: ImageShape): ResearchCardImage | undefined {
+  if (!image?.asset?._id) return undefined
+
+  const source = { asset: { _ref: image.asset._id }, crop: image.crop, hotspot: image.hotspot }
+  const sized = (width: number) =>
+    urlFor(source).width(width).height(Math.round(width * shape.ratio)).fit('crop').quality(70).url()
+
+  return {
+    src: sized(shape.fallbackWidth),
+    srcSet: shape.widths.map((width) => `${sized(width)} ${width}w`).join(', '),
+    alt: image.alt ?? fallbackAlt,
+    lqip: image.asset.lqip,
+  }
+}
+
+const IMAGE_PROJECTION = `image{ alt, crop, hotspot, "asset": asset->{ _id, "lqip": metadata.lqip } }`
 
 const RESEARCH_QUERY = `*[_type == "researchCategory" && defined(slug.current)] | order(number asc) {
   "slug": slug.current,
   number,
   title,
   icon,
+  "image": ${IMAGE_PROJECTION},
   summary,
   "deepDive": coalesce(deepDive, ""),
   "items": *[_type == "researchItem" && references(^._id) && defined(slug.current)] | order(order asc, name asc) {
@@ -18,6 +60,7 @@ const RESEARCH_QUERY = `*[_type == "researchCategory" && defined(slug.current)] 
     vendor,
     origin,
     tagline,
+    "image": ${IMAGE_PROJECTION},
     "whatItIs": coalesce(whatItIs, ""),
     "whyItMatters": coalesce(whyItMatters, ""),
     "keyFacts": coalesce(keyFacts, []),
@@ -34,7 +77,16 @@ const RESEARCH_QUERY = `*[_type == "researchCategory" && defined(slug.current)] 
  */
 export const getResearchCategories = cache(async (): Promise<ResearchCategory[]> => {
   const categories = await sanityFetch<RawCategory[]>(RESEARCH_QUERY, {}, ['research'])
-  return categories.map((category) => ({ ...category, icon: researchIcon(category.icon) }))
+  return categories.map((category) => ({
+    ...category,
+    icon: researchIcon(category.icon),
+    image: sanityImage(category.image, category.title, CARD_SHAPE),
+    items: category.items.map((item) => ({
+      ...item,
+      image: sanityImage(item.image, item.name, CARD_SHAPE),
+      cover: sanityImage(item.image, item.name, COVER_SHAPE),
+    })),
+  }))
 })
 
 export async function getCategory(slug: string): Promise<ResearchCategory | undefined> {

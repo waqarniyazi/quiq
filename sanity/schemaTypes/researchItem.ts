@@ -1,6 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { DocumentIcon } from '@sanity/icons/Document'
 import { STATUS_LABELS } from '../../lib/research/types'
+import { cardImageField } from './cardImage'
 
 const stringList = (name: string, title: string, description: string) =>
   defineField({ name, title, description, type: 'array', of: [defineArrayMember({ type: 'text', rows: 2 })] })
@@ -47,6 +48,7 @@ export const researchItem = defineType({
       description: 'One line, shown on the category list card.',
       validation: (rule) => rule.required(),
     }),
+    cardImageField('Shown on the entry card (4:3) and as the cover of the entry page (16:9).'),
     defineField({
       name: 'whatItIs',
       title: 'What it is',
