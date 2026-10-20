@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getAllPosts } from '@/lib/blog/posts'
+import { categoryHref, getBlogCategories } from '@/lib/blog/categories'
 import { products } from '@/lib/products'
 import { getResearchCategories } from '@/lib/research/data'
 
@@ -133,5 +134,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ])
 
-  return [...staticPages, ...blogPages, ...productPages, ...researchPages]
+  const blogCategoryPages: MetadataRoute.Sitemap = (await getBlogCategories()).map((category) => ({
+    url: `${baseUrl}${categoryHref(category.slug)}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...blogPages, ...blogCategoryPages, ...productPages, ...researchPages]
 }

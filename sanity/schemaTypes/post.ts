@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { DocumentTextIcon } from '@sanity/icons/DocumentText'
-import { BLOG_CATEGORIES } from '../../lib/blog/categories'
+import { LEGACY_CATEGORIES } from '../../lib/blog/categories'
 
 export const post = defineType({
   name: 'post',
@@ -32,10 +32,19 @@ export const post = defineType({
     defineField({ name: 'modifiedAt', title: 'Last modified', type: 'datetime' }),
     defineField({ name: 'author', type: 'string', initialValue: 'Team Quiq' }),
     defineField({
+      name: 'blogCategory',
+      title: 'Category',
+      type: 'reference',
+      to: [{ type: 'blogCategory' }],
+      description: 'The topic this post is filed under. It decides the breadcrumb and the category page it appears on.',
+    }),
+    defineField({
       name: 'category',
+      title: 'Old category (replaced by Category)',
       type: 'string',
-      description: 'Filter tab on /blog. Tabs only appear for categories that have posts.',
-      options: { list: [...BLOG_CATEGORIES], layout: 'radio' },
+      description: 'Used only while Category is empty. Kept so older posts still have a category.',
+      options: { list: [...LEGACY_CATEGORIES], layout: 'radio' },
+      readOnly: true,
     }),
     defineField({
       name: 'coverImage',

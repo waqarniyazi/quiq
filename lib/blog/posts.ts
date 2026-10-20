@@ -3,6 +3,7 @@ import type { PortableTextBlock } from '@portabletext/react'
 import type { SanityImageSource } from '@sanity/image-url'
 import { sanityFetch } from '@/sanity/lib/client'
 import { urlFor } from '@/sanity/lib/image'
+import { LEGACY_TO_SLUG } from '@/lib/blog/categories'
 
 export type Post = {
   slug: string
@@ -10,14 +11,20 @@ export type Post = {
   summary: string
   date: string
   modifiedTime?: string
-  category?: string
+  /** Slug of the post's blog category (its own, or mapped from the old category while it has none). */
+  categorySlug?: string
   author?: string
   image?: string
 }
 
 export type PostWithBody = Post & { body: PortableTextBlock[] }
 
-type RawPost = Omit<Post, 'image'> & { coverImage?: SanityImageSource; body?: PortableTextBlock[] }
+type RawPost = Omit<Post, 'image' | 'categorySlug'> & {
+  coverImage?: SanityImageSource
+  body?: PortableTextBlock[]
+  categoryRef?: string
+  legacyCategory?: string
+}
 
 const POST_FIELDS = `
   "slug": slug.current,
@@ -25,13 +32,18 @@ const POST_FIELDS = `
   summary,
   "date": publishedAt,
   "modifiedTime": modifiedAt,
-  category,
+  "categoryRef": coalesce(blogCategory->slug.current, string::split(blogCategory._ref, "blogCategory-")[1]),
+  "legacyCategory": category,
   author,
   coverImage
 `
 
-function toPost({ coverImage, ...post }: RawPost): Post {
-  return { ...post, image: coverImage ? urlFor(coverImage).width(1600).url() : undefined }
+function toPost({ coverImage, categoryRef, legacyCategory, body: _body, ...post }: RawPost): Post {
+  return {
+    ...post,
+    categorySlug: categoryRef ?? (legacyCategory ? LEGACY_TO_SLUG[legacyCategory] : undefined),
+    image: coverImage ? urlFor(coverImage).width(1600).url() : undefined,
+  }
 }
 
 /** All published posts, newest first. Content lives in Sanity (edit at /studio). */
