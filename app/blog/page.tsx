@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/blog/posts"
+import { getBlogCategories } from "@/lib/blog/categories"
 import { SITE_NAME, SITE_URL, SITE_SAME_AS } from "@/lib/constants"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -23,7 +24,8 @@ export const metadata = {
 }
 
 export default async function BlogPage() {
-  const posts = await getAllPosts()
+  const [posts, allCategories] = await Promise.all([getAllPosts(), getBlogCategories()])
+  const categories = allCategories.filter((c) => posts.some((p) => p.categorySlug === c.slug))
   const orgSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -50,7 +52,7 @@ export default async function BlogPage() {
           </div>
 
           {/* Posts Grid */}
-          <PostCards posts={posts} />
+          <PostCards posts={posts} categories={categories} />
         </div>
       </div>
       <Footer />

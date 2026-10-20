@@ -10,6 +10,10 @@ import Script from "next/script"
 import PostHeader from "@/components/blog/PostHeader"
 import { RepurposeCTA } from "@/components/blog/RepurposeCTA"
 import { ContinueReading } from "@/components/blog/ContinueReading"
+import Breadcrumbs, { type Crumb } from "@/components/research/breadcrumbs"
+import { categoryHref, getBlogCategories } from "@/lib/blog/categories"
+import { breadcrumbJsonLd } from "@/lib/blog/breadcrumbs"
+import { faqJsonLd, splitFaq } from "@/lib/blog/faq"
 
 type Params = { params: any }
 
@@ -44,8 +48,16 @@ export async function generateMetadata({ params }: Params) {
 
 export default async function BlogPostPage({ params }: Params) {
   const { slug } = await params
-  const [post, allPosts] = await Promise.all([getPost(slug), getAllPosts()])
+  const [post, allPosts, categories] = await Promise.all([getPost(slug), getAllPosts(), getBlogCategories()])
   if (!post) return notFound()
+
+  const category = categories.find((c) => c.slug === post.categorySlug)
+  const crumbs: Crumb[] = [
+    { label: "Home", href: "/" },
+    { label: "Blog", href: "/blog" },
+    ...(category ? [{ label: category.title, href: categoryHref(category.slug) }] : []),
+  ]
+  const faq = splitFaq(post.body).items
 
   const orgSchema = {
     "@context": "https://schema.org",
@@ -60,7 +72,16 @@ export default async function BlogPostPage({ params }: Params) {
       <Header />
       <div className="px-4 md:px-8 py-12 pt-24">
         <Script id="org-jsonld-post" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
+        <Script id="breadcrumb-jsonld-post" type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd([...crumbs, { label: post.title }])) }} />
+        {faq.length > 0 && (
+          <Script id="faq-jsonld-post" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(faq)) }} />
+        )}
         <ProgressBar />
+
+        <div className="mx-auto max-w-6xl">
+          <Breadcrumbs crumbs={crumbs} />
+        </div>
 
         {/* Title + meta header with cover image zoom */}
         <PostHeader title={post.title} date={post.date} slug={post.slug} summary={post.summary} image={post.image} />

@@ -2,13 +2,17 @@
 
 import { useState } from 'react'
 import type { Post } from '@/lib/blog/posts'
-import { BLOG_CATEGORIES, BLOG_CATEGORY_LABELS } from '@/lib/blog/categories'
+import { categoryHref, type BlogCategory } from '@/lib/blog/categories'
 import { BlurImage } from '@/components/ui/blur-image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 
 type PostCardsProps = {
   posts: Post[]
+  /** Category tabs (links to the category pages); only categories with posts are shown. */
+  categories?: BlogCategory[]
+  /** The category page being shown; undefined on /blog ("All"). */
+  activeSlug?: string
   showPagination?: boolean
   postsPerPage?: number
   showViewAll?: boolean
@@ -16,15 +20,12 @@ type PostCardsProps = {
 
 type PostCardProps = Post
 
-const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll = false }: PostCardsProps) => {
+const PostCards = ({ posts, categories = [], activeSlug, showPagination = true, postsPerPage = 12, showViewAll = false }: PostCardsProps) => {
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const categories = ['All', ...BLOG_CATEGORIES.filter(c => posts.some(p => p.category === c))]
-
-  const filteredPosts = selectedCategory === 'All' 
-    ? posts 
-    : posts.filter(p => p.category === selectedCategory)
+  const tabs = [{ slug: undefined, title: 'All', href: '/blog' },
+    ...categories.map(c => ({ slug: c.slug, title: c.title, href: categoryHref(c.slug) }))]
+  const filteredPosts = posts
 
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage)
   const startIndex = (currentPage - 1) * postsPerPage
@@ -33,26 +34,24 @@ const PostCards = ({ posts, showPagination = true, postsPerPage = 9, showViewAll
 
   return (
     <div className="space-y-8">
-      {/* Category Tabs */}
-      {!showViewAll && (
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => {
-                setSelectedCategory(category)
-                setCurrentPage(1)
-              }}
+      {/* Category tabs: each is a link to its category page */}
+      {!showViewAll && categories.length > 0 && (
+        <nav aria-label="Blog categories" className="flex flex-wrap justify-center gap-3 mb-8">
+          {tabs.map(tab => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              aria-current={tab.slug === activeSlug ? 'page' : undefined}
               className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === category
+                tab.slug === activeSlug
                   ? 'bg-blue-500 text-white'
                   : 'bg-white/5 text-white/60 hover:text-white hover:bg-white/10'
               }`}
             >
-              {BLOG_CATEGORY_LABELS[category as keyof typeof BLOG_CATEGORY_LABELS] ?? category}
-            </button>
+              {tab.title}
+            </Link>
           ))}
-        </div>
+        </nav>
       )}
 
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto'>
